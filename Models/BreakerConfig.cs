@@ -1,4 +1,4 @@
-using configDataNamespace;
+using smartDASNamespace;
 namespace BreakerConfig.Models {
 
   public enum BreakerType {
