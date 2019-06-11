@@ -39,6 +39,28 @@ namespace BreakerConfigAPI.Controllers
         }
     }
 
+    [Route("api/plc-config")]
+    [ApiController]
+    public class PLCConfigurationController : ControllerBase
+    {
+        
+
+        // GET api/plc-config
+        [HttpGet]
+        public ActionResult<PLCConfiguration> Get()
+        {
+            if(PLC_COM.config.IP == null){
+                PLC_COM.config.IP = "192.168.1.3";
+            }
+            return PLC_COM.config;
+        }
+
+        [HttpPut]
+        public ActionResult<PLCConfiguration> Put([FromBody] PLCConfiguration newConfig)
+        {
+            return PLC_COM.config = newConfig;
+        }
+    }
     [Route("api/breaker-config")]
     [ApiController]
     public class BreakerConfigController : ControllerBase
