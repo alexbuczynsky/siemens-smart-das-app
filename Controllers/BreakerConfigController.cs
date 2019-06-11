@@ -61,6 +61,28 @@ namespace BreakerConfigAPI.Controllers
             return PLC_COM.config = newConfig;
         }
     }
+
+    [Route("api/site-setup-structure")]
+    [ApiController]
+    public class SiteSetupStructure : ControllerBase
+    {
+        
+
+        // GET api/site-setup-structure
+        [HttpGet]
+        public ActionResult<siteSetupStructure> Get()
+        {
+            // return DB.breakerConfigManager.mapToSetupStructure();
+            return PLC_COM.readConfigData();
+        }
+
+        [HttpPut]
+        public ActionResult<siteSetupStructure> Put([FromBody] siteSetupStructure newSetupStructure)
+        {
+            return PLC_COM.saveConfigData(newSetupStructure);
+        }
+    }
+
     [Route("api/breaker-config")]
     [ApiController]
     public class BreakerConfigController : ControllerBase
