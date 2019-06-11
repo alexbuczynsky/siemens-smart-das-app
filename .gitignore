@@ -10,6 +10,8 @@
 *.userosscache
 *.sln.docstates
 
+ip-plc.txt
+
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 

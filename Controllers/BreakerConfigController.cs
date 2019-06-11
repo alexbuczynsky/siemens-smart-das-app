@@ -73,7 +73,12 @@ namespace BreakerConfigAPI.Controllers
         public ActionResult<siteSetupStructure> Get()
         {
             // return DB.breakerConfigManager.mapToSetupStructure();
-            return PLC_COM.readConfigData();
+            try{
+                PLC_COM.readConfigData();
+            }catch(Exception e){
+                return StatusCode(500, e);
+            }
+            return DB.breakerConfigManager.getSetupStructure();
         }
 
         [HttpPut]
@@ -93,7 +98,11 @@ namespace BreakerConfigAPI.Controllers
         [HttpGet]
         public ActionResult<BreakerSetupObject[]> Get()
         {
-            PLC_COM.readConfigData();
+            try{
+                PLC_COM.readConfigData();
+            }catch(Exception e){
+                return StatusCode(500, e);
+            }
             return DB.breakerConfigManager.configurations;
             
         }
@@ -102,13 +111,15 @@ namespace BreakerConfigAPI.Controllers
         [HttpGet("{id}")]
         public ActionResult<BreakerSetupObject> Get(int id)
         {
-            PLC_COM.readConfigData();
-
             id = id -1;
 
             BreakerSetupObject foundConfig;
             if(id >= 0 && id < DB.breakerConfigManager.configurations.Length){
-                PLC_COM.readConfigData();
+                try{
+                    PLC_COM.readConfigData();
+                }catch(Exception e){
+                    return StatusCode(500, e);
+                }
                 return DB.breakerConfigManager.configurations[id];
             }else{
                 return NotFound();
