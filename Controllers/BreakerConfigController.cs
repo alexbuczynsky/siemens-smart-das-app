@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -87,24 +87,29 @@ namespace BreakerConfigAPI.Controllers
     [ApiController]
     public class BreakerConfigController : ControllerBase
     {
-        private static BreakerConfigManager breakerConfigManager = new BreakerConfigManager();
+        
 
         // GET api/breaker-config
         [HttpGet]
         public ActionResult<BreakerSetupObject[]> Get()
         {
-            return breakerConfigManager.configurations;
+            PLC_COM.readConfigData();
+            return DB.breakerConfigManager.configurations;
+            
         }
 
         // GET api/breaker-config/5
         [HttpGet("{id}")]
         public ActionResult<BreakerSetupObject> Get(int id)
         {
+            PLC_COM.readConfigData();
+
             id = id -1;
 
             BreakerSetupObject foundConfig;
-            if(id >= 0 && id < breakerConfigManager.configurations.Length){
-                return breakerConfigManager.configurations[id];
+            if(id >= 0 && id < DB.breakerConfigManager.configurations.Length){
+                PLC_COM.readConfigData();
+                return DB.breakerConfigManager.configurations[id];
             }else{
                 return NotFound();
             }
@@ -116,11 +121,18 @@ namespace BreakerConfigAPI.Controllers
         public ActionResult<BreakerSetupObject> Put(int id, [FromBody] BreakerSetupObject newConfiguration)
         {
             id = id - 1;
-            if(id >= 0 && id < breakerConfigManager.configurations.Length){
-                return breakerConfigManager.configurations[id] = newConfiguration;
+            if(id >= 0 && id < DB.breakerConfigManager.configurations.Length){
+                PLC_COM.readConfigData();
+
+                DB.breakerConfigManager.configurations[id] = newConfiguration;
+
+                PLC_COM.saveConfigData(DB.breakerConfigManager.getSetupStructure());
+                
+                return DB.breakerConfigManager.configurations[id];
             }else{
                 return NotFound();
             }
         }
+
     }
 }
