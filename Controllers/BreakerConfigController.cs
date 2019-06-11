@@ -27,7 +27,7 @@ namespace BreakerConfigAPI.Controllers
             id = id -1;
 
             BreakerSetupObject foundConfig;
-            if(id > 0 && id < breakerConfigManager.configurations.Length){
+            if(id >= 0 && id < breakerConfigManager.configurations.Length){
                 return breakerConfigManager.configurations[id];
             }else{
                 return NotFound();
