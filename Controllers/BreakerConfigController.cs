@@ -4,11 +4,39 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BreakerConfig.Models;
+using configDataNamespace;
+using PLCConfig.models;
 
 namespace BreakerConfigAPI.Controllers
 {
     public class DB {
         public static BreakerConfigManager breakerConfigManager = new BreakerConfigManager();
+    }
+
+    public class PLC_COM {
+        public static PLCConfiguration config = new PLCConfiguration();
+        public static getConfigClass readConfig = new getConfigClass();
+        public static writeConfigClass saveConfig = new writeConfigClass();
+
+        public static siteSetupStructure readConfigData(){
+            var ipAddress = PLC_COM.config.IP;
+
+            var newStructure = PLC_COM.readConfig.readConfigData(ipAddress);
+            DB.breakerConfigManager.setSetupStructure(newStructure);
+            return DB.breakerConfigManager.getSetupStructure();
+        }
+
+        public static siteSetupStructure saveConfigData(siteSetupStructure newStructure){
+            var ipAddress = PLC_COM.config.IP;
+            Console.WriteLine($"IP ADDRESS: {ipAddress}");
+            Console.WriteLine($"New Structure: {newStructure.breaker3IP1}");
+            // PLC_COM.saveConfig.writeConfig(ipAddress, newStructure);
+            PLC_COM.saveConfig.writeConfig(ipAddress, new siteSetupStructure());
+
+            DB.breakerConfigManager.setSetupStructure(newStructure);
+
+            return DB.breakerConfigManager.getSetupStructure();
+        }
     }
 
     [Route("api/breaker-config")]
