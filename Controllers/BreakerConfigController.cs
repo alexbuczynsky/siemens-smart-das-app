@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,6 +7,10 @@ using BreakerConfig.Models;
 
 namespace BreakerConfigAPI.Controllers
 {
+    public class DB {
+        public static BreakerConfigManager breakerConfigManager = new BreakerConfigManager();
+    }
+
     [Route("api/breaker-config")]
     [ApiController]
     public class BreakerConfigController : ControllerBase
