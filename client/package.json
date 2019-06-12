@@ -59,9 +59,7 @@
       "category": "public.app-category.utilities"
     },
     "win": {},
-    "linux": {
-      "arch": "x64"
-    },
+    "linux": {},
     "files": [
       "build/**/*",
       "node_modules/**/*"
