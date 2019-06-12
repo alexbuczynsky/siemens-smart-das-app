@@ -18,7 +18,7 @@ namespace BreakerConfigAPI.Controllers
         public static getConfigClass readConfig = new getConfigClass();
         public static writeConfigClass saveConfig = new writeConfigClass();
 
-        public static bool byPassErrors = true;
+        public static bool byPassErrors = false;
 
         public static siteSetupStructure readConfigData(){
             var ipAddress = PLC_COM.config.IP;
