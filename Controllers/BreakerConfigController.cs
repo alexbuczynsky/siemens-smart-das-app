@@ -59,9 +59,6 @@ namespace BreakerConfigAPI.Controllers
         [HttpGet]
         public ActionResult<PLCConfiguration> Get()
         {
-            if(PLC_COM.config.IP == null){
-                PLC_COM.config.IP = "192.168.1.3";
-            }
             return PLC_COM.config;
         }
 
