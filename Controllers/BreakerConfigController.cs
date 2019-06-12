@@ -41,7 +41,7 @@ namespace BreakerConfigAPI.Controllers
             Console.WriteLine($"IP ADDRESS: {ipAddress}");
             Console.WriteLine($"New Structure: {newStructure.breaker3IP1}");
             // PLC_COM.saveConfig.writeConfig(ipAddress, newStructure);
-            PLC_COM.saveConfig.writeConfig(ipAddress, new siteSetupStructure());
+            PLC_COM.saveConfig.writeConfig(ipAddress, newStructure);
 
             DB.breakerConfigManager.setSetupStructure(newStructure);
 
