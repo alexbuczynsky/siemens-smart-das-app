@@ -71,25 +71,44 @@ var apiProcess = null;
 
 startApi().then(createWindow);
 
+function getPathToApi() {
+  let relativePath;
+
+  switch(os.platform()){
+    case 'windows':
+    case 'win32':
+      relativePath = 'server/bin/dist/win/BreakerConfigAPI.exe';
+      break;
+    case 'darwin':
+      relativePath = 'server/bin/dist/osx/BreakerConfigAPI';
+      break;
+    case 'linux':
+      relativePath = 'server/bin/dist/linux/BreakerConfigAPI';
+      break;
+    default:
+      relativePath = 'server/bin/dist/linux/BreakerConfigAPI';
+  }
+
+  
+
+  //  if(app.isPackaged){
+  //   relativePath = '../' + relativePath;
+  // }else{
+  //   relativePath = '../../' + relativePath;
+  // }
+  relativePath = '../../' + relativePath;
+
+  const fullPath = path.join(__dirname, relativePath);
+
+  return fullPath;
+}
+
 function startApi() {
   var proc = require('child_process').spawn;
-  //  run server
-  let apipath = '';
   return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => reject(), 30000)
-      switch(os.platform()){
-      case 'windows':
-        apipath = path.join(__dirname, '..\\..\\server\\bin\\dist\\win\\BreakerConfigAPI.exe')
-        break;
-      case 'darwin':
-        apipath = path.join(__dirname, '..//..//server//bin//dist//osx//BreakerConfigAPI');
-        break;
-      case 'linux':
-        apipath = path.join(__dirname, '..//..//server//bin//dist//linux//BreakerConfigAPI');
-        break;
-      default:
-        apipath = path.join(__dirname, '..//..//server//bin//dist//linux//BreakerConfigAPI');
-    }
+    const timer = setTimeout(() => reject(), 30000);
+    let apipath = getPathToApi();
+    
     apiProcess = proc(apipath)
 
     apiProcess.stdout.on('data', (data) => {
