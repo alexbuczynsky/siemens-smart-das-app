@@ -18,11 +18,21 @@ namespace BreakerConfigAPI.Controllers
         public static getConfigClass readConfig = new getConfigClass();
         public static writeConfigClass saveConfig = new writeConfigClass();
 
+        public static bool byPassErrors = false;
+
         public static siteSetupStructure readConfigData(){
             var ipAddress = PLC_COM.config.IP;
 
-            var newStructure = PLC_COM.readConfig.readConfigData(ipAddress);
-            DB.breakerConfigManager.setSetupStructure(newStructure);
+            siteSetupStructure newStructure;
+            try {
+                newStructure = PLC_COM.readConfig.readConfigData(ipAddress);
+                DB.breakerConfigManager.setSetupStructure(newStructure);
+            }catch(Exception e){
+                if(PLC_COM.byPassErrors == false){
+                    throw e;
+                }
+            }
+            
             return DB.breakerConfigManager.getSetupStructure();
         }
 
