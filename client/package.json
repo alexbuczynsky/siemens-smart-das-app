@@ -1,0 +1,81 @@
+{
+  "name": "breaker-config-web-client",
+  "author": {
+    "name": "Siemens"
+  },
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.1.0",
+    "@types/jest": "24.0.13",
+    "@types/node": "12.0.7",
+    "@types/react": "16.8.19",
+    "@types/react-dom": "16.8.4",
+    "axios": "^0.19.0",
+    "express": "^4.17.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-scripts": "3.0.1",
+    "typescript": "3.5.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build;",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "start:electron": "npm run build; electron ./build/electron.js",
+    "postinstall": "electron-builder install-app-deps",
+    "preelectron-pack": "npm run build",
+    "electron-pack": "build -m"
+  },
+  "main": "public/electron.js",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "copyfiles": "^2.1.0",
+    "electron": "^5.0.3",
+    "electron-builder": "^20.43.0"
+  },
+  "build": {
+    "appId": "com.siemens.si.lp.das-controller-setup",
+    "productName": "Smart DAS Controller Configurator",
+    "copyright": "Copyright © 2019 Siemens Inc.",
+    "mac": {
+      "category": "public.app-category.utilities"
+    },
+    "win": {
+
+    },
+    "linux":{
+
+    },
+    "files": [
+      "build/**/*",
+      "node_modules/**/*"
+    ],
+    "directories": {
+      "buildResources": "assets",
+      "output": "../dist"
+    },
+    "extraResources": {
+      "from": "../server/bin/dist/",
+      "to": "../server/bin/dist/",
+      "filter": [
+        "**/*"
+      ]
+    }
+  }
+}

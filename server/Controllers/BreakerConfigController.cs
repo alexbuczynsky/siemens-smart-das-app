@@ -18,7 +18,7 @@ namespace BreakerConfigAPI.Controllers
         public static getConfigClass readConfig = new getConfigClass();
         public static writeConfigClass saveConfig = new writeConfigClass();
 
-        public static bool byPassErrors = false;
+        public static bool byPassErrors = true;
 
         public static siteSetupStructure readConfigData(){
             var ipAddress = PLC_COM.config.IP;
@@ -41,9 +41,17 @@ namespace BreakerConfigAPI.Controllers
             Console.WriteLine($"IP ADDRESS: {ipAddress}");
             Console.WriteLine($"New Structure: {newStructure.breaker3IP1}");
             // PLC_COM.saveConfig.writeConfig(ipAddress, newStructure);
-            PLC_COM.saveConfig.writeConfig(ipAddress, newStructure);
+
+            try {
+                PLC_COM.saveConfig.writeConfig(ipAddress, newStructure);
+            }catch(Exception e){
+                if(PLC_COM.byPassErrors == false){
+                    throw e;
+                }
+            }
 
             DB.breakerConfigManager.setSetupStructure(newStructure);
+            
 
             return DB.breakerConfigManager.getSetupStructure();
         }
