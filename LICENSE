@@ -1,0 +1,51 @@
+# Siemens Inner Source License 1.2
+
+_Copyright (C) 2017 Siemens AG_
+
+This license serves the purpose to facilitate exchange of source
+code among Siemens Affiliates on an internal
+code sharing platform. It applies to Siemens AG and all Siemens
+Affiliates (defined as companies in which Siemens AG holds at
+least 50% of the shares or exercises control) that are either
+participating in the Cost Contribution Agreement (“CCA”) or are
+entitled to participate by other agreements (hereinafter referred
+to as “Participating Siemens Entity”).
+
+Each Participating Siemens Entity grants to all other
+Participating Siemens Entities a non-exclusive, perpetual and
+irrevocable right and license to make use of the software and the
+associated documentation files that it has developed and expressly
+designated as an Inner Source project (hereinafter “SOFTWARE”),
+subject to compliance with the following terms.  Each
+Participating Siemens Entity is entitled to:
+
+* copy, modify, merge, sublicense, distribute, publish and make
+  available the SOFTWARE in source-code and binary form for internal
+  purposes; and
+
+* copy, sublicense, publish, distribute and make available the
+  SOFTWARE in binary form only to a third party (e.g. a SIEMENS
+  customer), subject to these restrictions:
+
+  * a) The entity may not grant any exclusive rights to the SOFTWARE
+    to any third party; and
+
+  * b) The entity must observe all restrictions and/or guidelines and
+    the optional [RESTRICTIONS.md](RESTRICTIONS.md) file of the relevant inner source
+    project; and
+
+  * c) The entity must license the SOFTWARE to third parties under
+    license terms that do not contradict the terms of this license,
+    the CCA and/or any other applicable agreement that entitles the
+    entity to participate; and
+
+  * d) The entity must hold responsibility for the use of the
+    SOFTWARE towards any third party (e.g. a Siemens customer), and
+    not raise warranty or damage claims for faults in the SOFTWARE
+    under ZRG (as ZRG require a customer/supplier relationship and
+    code-sharing is a combination of both).
+
+Each Participating Siemens Entity must make available all versions
+of the SOFTWARE on the Siemens Inner Source Code Repository
+platform in source code form under this License in its then
+current version.
