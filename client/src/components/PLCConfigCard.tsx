@@ -6,8 +6,7 @@
 import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardHeader, Avatar, CardContent, FormControl, Input, Select, MenuItem, FormHelperText, InputLabel, CardActions, TextField, Button } from '@material-ui/core';
-import { BreakerType, BreakerSetupObject } from '../models';
+import { Card, CardHeader, Avatar, CardContent, FormControl, CardActions, TextField, Button } from '@material-ui/core';
 import { smartAPI } from '../services/configured-services';
 
 // -------------------------------------------------------------------------

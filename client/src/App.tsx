@@ -1,9 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import './App.css';
 import { CssBaseline } from '@material-ui/core';
 import { DASConfigurationCard } from './components/DASConfigurationCard';
-import { BreakerSetupObject } from './models';
-import { smartAPI } from './services/configured-services';
 
 
 
