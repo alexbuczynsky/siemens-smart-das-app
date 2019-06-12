@@ -10,4 +10,6 @@ dotnet publish -r win10-x64 --output bin/dist/win
 
 cd ../client
 
+npm run build
+
 npm run start:electron
