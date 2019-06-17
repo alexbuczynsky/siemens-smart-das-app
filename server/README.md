@@ -11,6 +11,7 @@
     - [Write DAS Activate Commands](#Write-DAS-Activate-Commands)
     - [Read PLC Network configuration](#Read-PLC-Network-configuration)
     - [Write PLC Network Configuration](#Write-PLC-Network-Configuration)
+    - [Read Breaker Alarms](#Read-Breaker-Alarms)
     - [Postman Link](#Postman-Link)
 
 ## Start
@@ -305,6 +306,26 @@ you should receive:
     "newGateway2": 168,
     "newGateway3": 1,
     "newGateway4": 254,
+}
+```
+
+### Read Breaker Alarms
+
+To read the currently active breaker alarms, send a get request to `localhost:5000/api/breaker-alarms`
+
+the following json payload should be returned:
+
+```json
+{
+    "comAlarmBreaker1": false,
+    "comAlarmBreaker2": false,
+    "comAlarmBreaker3": false,
+    "comAlarmBreaker4": true,
+    "comAlarmBreaker5": false,
+    "comAlarmBreaker6": false,
+    "comAlarmBreaker7": false,
+    "comAlarmBreaker8": false,
+    "comAlarmBreaker9": true,
 }
 ```
 
