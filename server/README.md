@@ -7,6 +7,8 @@
     - [Update Breaker 1 Configuration](#Update-Breaker-1-Configuration)
     - [Update Breaker 1 Error Example](#Update-Breaker-1-Error-Example)
     - [Get DAS Status](#Get-DAS-Status)
+    - [Read DAS Activate Commands](#Read-DAS-Activate-Commands)
+    - [Write DAS Activate Commands](#Write-DAS-Activate-Commands)
     - [Postman Link](#Postman-Link)
 
 ## Start
@@ -204,6 +206,57 @@ you should receive the following:
     "dasStatusBreaker7": false,
     "dasStatusBreaker8": false,
     "dasStatusBreaker9": false,
+}
+```
+
+### Read DAS Activate Commands
+
+To get the current DAS command status, send a get request to `localhost:5000/api/das/commands`
+
+you should receive the following:
+```json
+{
+    "dasActivateBreaker1": true,
+    "dasActivateBreaker2": true,
+    "dasActivateBreaker3": false,
+    "dasActivateBreaker4": true,
+    "dasActivateBreaker5": false,
+    "dasActivateBreaker6": false,
+    "dasActivateBreaker7": false,
+    "dasActivateBreaker8": false,
+    "dasActivateBreaker9": false,
+}
+```
+
+### Write DAS Activate Commands
+
+Send the following payload as a put request to `localhost:5000/api/das/commands`
+```json
+{
+    "dasActivateBreaker1": true,
+    "dasActivateBreaker2": true,
+    "dasActivateBreaker3": false,
+    "dasActivateBreaker4": true,
+    "dasActivateBreaker5": false,
+    "dasActivateBreaker6": false,
+    "dasActivateBreaker7": false,
+    "dasActivateBreaker8": false,
+    "dasActivateBreaker9": false,
+}
+```
+
+you should receive the following:
+```json
+{
+    "dasActivateBreaker1": true,
+    "dasActivateBreaker2": true,
+    "dasActivateBreaker3": false,
+    "dasActivateBreaker4": true,
+    "dasActivateBreaker5": false,
+    "dasActivateBreaker6": false,
+    "dasActivateBreaker7": false,
+    "dasActivateBreaker8": false,
+    "dasActivateBreaker9": false,
 }
 ```
 
