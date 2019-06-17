@@ -9,6 +9,8 @@
     - [Get DAS Status](#Get-DAS-Status)
     - [Read DAS Activate Commands](#Read-DAS-Activate-Commands)
     - [Write DAS Activate Commands](#Write-DAS-Activate-Commands)
+    - [Read PLC Network configuration](#Read-PLC-Network-configuration)
+    - [Write PLC Network Configuration](#Write-PLC-Network-Configuration)
     - [Postman Link](#Postman-Link)
 
 ## Start
@@ -257,6 +259,52 @@ you should receive the following:
     "dasActivateBreaker7": false,
     "dasActivateBreaker8": false,
     "dasActivateBreaker9": false,
+}
+```
+
+
+### Read PLC Network configuration
+
+To read the PLC Network Configuration, send a get request to `localhost:5000/api/plc/network-configuration`
+
+> THIS FEATURE IS NOT IMPLEMENTED YET... See TODO NOTES.
+
+### Write PLC Network Configuration
+
+To write the network configuration, send a put request to `localhost:5000/api/plc/network-configuration` with
+the following payload:
+```json
+{
+    "newIP1": 192,
+    "newIP2": 168,
+    "newIP3": 1,
+    "newIP4": 5,
+    "newSubnet1": 255,
+    "newSubnet2": 255,
+    "newSubnet3": 255,
+    "newSubnet4": 0,
+    "newGateway1": 192,
+    "newGateway2": 168,
+    "newGateway3": 1,
+    "newGateway4": 254,
+}
+```
+
+you should receive:
+```json
+{
+    "newIP1": 192,
+    "newIP2": 168,
+    "newIP3": 1,
+    "newIP4": 5,
+    "newSubnet1": 255,
+    "newSubnet2": 255,
+    "newSubnet3": 255,
+    "newSubnet4": 0,
+    "newGateway1": 192,
+    "newGateway2": 168,
+    "newGateway3": 1,
+    "newGateway4": 254,
 }
 ```
 
