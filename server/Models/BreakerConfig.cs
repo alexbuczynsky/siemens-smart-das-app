@@ -1,12 +1,5 @@
 using smartDASNamespace;
-namespace BreakerConfig.Models {
-
-  public enum BreakerType {
-    NOT_AVAILABLE = 0,
-    WL_BREAKER = 1,
-    VL_BREAKER = 2,
-    VA_BREAKER = 3,
-  }
+namespace BreakerConfigAPI.Models {
 
   public class BreakerSetupObject 
   {
@@ -46,7 +39,7 @@ namespace BreakerConfig.Models {
         breaker1IP3 = configurations[0].breakerIP3,
         breaker1IP4 = configurations[0].breakerIP4,
         breaker1SlaveID = configurations[0].breakerSlaveId,
-        breaker1Type = (int) configurations[0].type,
+        breaker1Type = configurations[0].type,
         breaker1AssociatedOutput = configurations[0].associatedOutput,
         breaker1AssociatedInput = configurations[0].associatedInput,
         
@@ -55,7 +48,7 @@ namespace BreakerConfig.Models {
         breaker2IP3 = configurations[1].breakerIP3,
         breaker2IP4 = configurations[1].breakerIP4,
         breaker2SlaveID = configurations[1].breakerSlaveId,
-        breaker2Type = (int) configurations[1].type,
+        breaker2Type = configurations[1].type,
         breaker2AssociatedOutput = configurations[1].associatedOutput,
         breaker2AssociatedInput = configurations[1].associatedInput,
 
@@ -64,7 +57,7 @@ namespace BreakerConfig.Models {
         breaker3IP3 = configurations[2].breakerIP3,
         breaker3IP4 = configurations[2].breakerIP4,
         breaker3SlaveID = configurations[2].breakerSlaveId,
-        breaker3Type = (int) configurations[2].type,
+        breaker3Type = configurations[2].type,
         breaker3AssociatedOutput = configurations[2].associatedOutput,
         breaker3AssociatedInput = configurations[2].associatedInput,
 
@@ -73,7 +66,7 @@ namespace BreakerConfig.Models {
         breaker4IP3 = configurations[3].breakerIP3,
         breaker4IP4 = configurations[3].breakerIP4,
         breaker4SlaveID = configurations[3].breakerSlaveId,
-        breaker4Type = (int) configurations[3].type,
+        breaker4Type = configurations[3].type,
         breaker4AssociatedOutput = configurations[3].associatedOutput,
         breaker4AssociatedInput = configurations[3].associatedInput,
 
@@ -82,7 +75,7 @@ namespace BreakerConfig.Models {
         breaker5IP3 = configurations[4].breakerIP3,
         breaker5IP4 = configurations[4].breakerIP4,
         breaker5SlaveID = configurations[4].breakerSlaveId,
-        breaker5Type = (int) configurations[4].type,
+        breaker5Type = configurations[4].type,
         breaker5AssociatedOutput = configurations[4].associatedOutput,
         breaker5AssociatedInput = configurations[4].associatedInput,
         
@@ -91,7 +84,7 @@ namespace BreakerConfig.Models {
         breaker6IP3 = configurations[5].breakerIP3,
         breaker6IP4 = configurations[5].breakerIP4,
         breaker6SlaveID = configurations[5].breakerSlaveId,
-        breaker6Type = (int) configurations[5].type,
+        breaker6Type = configurations[5].type,
         breaker6AssociatedOutput = configurations[5].associatedOutput,
         breaker6AssociatedInput = configurations[5].associatedInput,
 
@@ -100,7 +93,7 @@ namespace BreakerConfig.Models {
         breaker7IP3 = configurations[6].breakerIP3,
         breaker7IP4 = configurations[6].breakerIP4,
         breaker7SlaveID = configurations[6].breakerSlaveId,
-        breaker7Type = (int) configurations[6].type,
+        breaker7Type = configurations[6].type,
         breaker7AssociatedOutput = configurations[6].associatedOutput,
         breaker7AssociatedInput = configurations[6].associatedInput,
 
@@ -109,7 +102,7 @@ namespace BreakerConfig.Models {
         breaker8IP3 = configurations[7].breakerIP3,
         breaker8IP4 = configurations[7].breakerIP4,
         breaker8SlaveID = configurations[7].breakerSlaveId,
-        breaker8Type = (int) configurations[7].type,
+        breaker8Type = configurations[7].type,
         breaker8AssociatedOutput = configurations[7].associatedOutput,
         breaker8AssociatedInput = configurations[7].associatedInput,
         
@@ -118,7 +111,7 @@ namespace BreakerConfig.Models {
         breaker9IP3 = configurations[8].breakerIP3,
         breaker9IP4 = configurations[8].breakerIP4,
         breaker9SlaveID = configurations[8].breakerSlaveId,
-        breaker9Type = (int) configurations[8].type,
+        breaker9Type = configurations[8].type,
         breaker9AssociatedOutput = configurations[8].associatedOutput,
         breaker9AssociatedInput = configurations[8].associatedInput,
       };
@@ -130,7 +123,7 @@ namespace BreakerConfig.Models {
         configurations[0].breakerIP3 = newSetup.breaker1IP3;
         configurations[0].breakerIP4 = newSetup.breaker1IP4;
         configurations[0].breakerSlaveId = newSetup.breaker1SlaveID;
-        configurations[0].type = (BreakerType) newSetup.breaker1Type;
+        configurations[0].type = newSetup.breaker1Type;
         configurations[0].associatedOutput = newSetup.breaker1AssociatedOutput;
         configurations[0].associatedInput = newSetup.breaker1AssociatedInput;
         
@@ -139,7 +132,7 @@ namespace BreakerConfig.Models {
         configurations[1].breakerIP3 = newSetup.breaker2IP3;
         configurations[1].breakerIP4 = newSetup.breaker2IP4;
         configurations[1].breakerSlaveId = newSetup.breaker2SlaveID;
-        configurations[1].type = (BreakerType) newSetup.breaker2Type;
+        configurations[1].type = newSetup.breaker2Type;
         configurations[1].associatedOutput = newSetup.breaker2AssociatedOutput;
         configurations[1].associatedInput = newSetup.breaker2AssociatedInput;
 
@@ -148,7 +141,7 @@ namespace BreakerConfig.Models {
         configurations[2].breakerIP3 = newSetup.breaker3IP3;
         configurations[2].breakerIP4 = newSetup.breaker3IP4;
         configurations[2].breakerSlaveId = newSetup.breaker3SlaveID;
-        configurations[2].type = (BreakerType) newSetup.breaker3Type;
+        configurations[2].type = newSetup.breaker3Type;
         configurations[2].associatedOutput = newSetup.breaker3AssociatedOutput;
         configurations[2].associatedInput = newSetup.breaker3AssociatedInput;
 
@@ -157,7 +150,7 @@ namespace BreakerConfig.Models {
         configurations[3].breakerIP3 = newSetup.breaker4IP3;
         configurations[3].breakerIP4 = newSetup.breaker4IP4;
         configurations[3].breakerSlaveId = newSetup.breaker4SlaveID;
-        configurations[3].type = (BreakerType) newSetup.breaker4Type;
+        configurations[3].type = newSetup.breaker4Type;
         configurations[3].associatedOutput = newSetup.breaker4AssociatedOutput;
         configurations[3].associatedInput = newSetup.breaker4AssociatedInput;
 
@@ -166,7 +159,7 @@ namespace BreakerConfig.Models {
         configurations[4].breakerIP3 = newSetup.breaker5IP3;
         configurations[4].breakerIP4 = newSetup.breaker5IP4;
         configurations[4].breakerSlaveId = newSetup.breaker5SlaveID;
-        configurations[4].type = (BreakerType) newSetup.breaker5Type;
+        configurations[4].type = newSetup.breaker5Type;
         configurations[4].associatedOutput = newSetup.breaker5AssociatedOutput;
         configurations[4].associatedInput = newSetup.breaker5AssociatedInput;
         
@@ -175,7 +168,7 @@ namespace BreakerConfig.Models {
         configurations[5].breakerIP3 = newSetup.breaker6IP3;
         configurations[5].breakerIP4 = newSetup.breaker6IP4;
         configurations[5].breakerSlaveId = newSetup.breaker6SlaveID;
-        configurations[5].type = (BreakerType) newSetup.breaker6Type;
+        configurations[5].type = newSetup.breaker6Type;
         configurations[5].associatedOutput = newSetup.breaker6AssociatedOutput;
         configurations[5].associatedInput = newSetup.breaker6AssociatedInput;
 
@@ -184,7 +177,7 @@ namespace BreakerConfig.Models {
         configurations[6].breakerIP3 = newSetup.breaker7IP3;
         configurations[6].breakerIP4 = newSetup.breaker7IP4;
         configurations[6].breakerSlaveId = newSetup.breaker7SlaveID;
-        configurations[6].type = (BreakerType) newSetup.breaker7Type;
+        configurations[6].type = newSetup.breaker7Type;
         configurations[6].associatedOutput = newSetup.breaker7AssociatedOutput;
         configurations[6].associatedInput = newSetup.breaker7AssociatedInput;
 
@@ -193,7 +186,7 @@ namespace BreakerConfig.Models {
         configurations[7].breakerIP3 = newSetup.breaker8IP3;
         configurations[7].breakerIP4 = newSetup.breaker8IP4;
         configurations[7].breakerSlaveId = newSetup.breaker8SlaveID;
-        configurations[7].type = (BreakerType) newSetup.breaker8Type;
+        configurations[7].type = newSetup.breaker8Type;
         configurations[7].associatedOutput = newSetup.breaker8AssociatedOutput;
         configurations[7].associatedInput = newSetup.breaker8AssociatedInput;
         
@@ -202,7 +195,7 @@ namespace BreakerConfig.Models {
         configurations[8].breakerIP3 = newSetup.breaker9IP3;
         configurations[8].breakerIP4 = newSetup.breaker9IP4;
         configurations[8].breakerSlaveId = newSetup.breaker9SlaveID;
-        configurations[8].type = (BreakerType) newSetup.breaker9Type;
+        configurations[8].type = newSetup.breaker9Type;
         configurations[8].associatedOutput = newSetup.breaker9AssociatedOutput;
         configurations[8].associatedInput = newSetup.breaker9AssociatedInput;
     }

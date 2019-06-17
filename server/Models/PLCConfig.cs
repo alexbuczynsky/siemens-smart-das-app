@@ -5,7 +5,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 
-namespace PLCConfig.models {
+namespace BreakerConfigAPI.Models {
   public class PLCConfiguration {
     private static string TEXT_FILE_NAME = "ip-plc.txt";
     private static string TEXT_FILE_PATH = Path.Combine(Directory.GetCurrentDirectory(), PLCConfiguration.TEXT_FILE_NAME);
