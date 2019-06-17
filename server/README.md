@@ -1,12 +1,13 @@
 # Breaker Config API Demo
-- [Breaker Config API Demo](#breaker-config-api-demo)
-  - [Start](#start)
-  - [Testing / Demo](#testing--demo)
-    - [Get Breaker All Breaker Configuration](#get-breaker-all-breaker-configuration)
-    - [Get Breaker 1 Configuration](#get-breaker-1-configuration)
-    - [Update Breaker 1 Configuration](#update-breaker-1-configuration)
-    - [Update Breaker 1 Error Example](#update-breaker-1-error-example)
-    - [Postman Link](#postman-link)
+- [Breaker Config API Demo](#Breaker-Config-API-Demo)
+  - [Start](#Start)
+  - [Testing / Demo](#Testing--Demo)
+    - [Get Breaker All Breaker Configuration](#Get-Breaker-All-Breaker-Configuration)
+    - [Get Breaker 1 Configuration](#Get-Breaker-1-Configuration)
+    - [Update Breaker 1 Configuration](#Update-Breaker-1-Configuration)
+    - [Update Breaker 1 Error Example](#Update-Breaker-1-Error-Example)
+    - [Get DAS Status](#Get-DAS-Status)
+    - [Postman Link](#Postman-Link)
 
 ## Start
 
@@ -184,6 +185,25 @@ You should receive the following response since 258 is greater than 255:
     "title": "One or more validation errors occurred.",
     "status": 400,
     "traceId": "0HLNE1P01SRAJ:00000007"
+}
+```
+
+### Get DAS Status
+
+To get the current DAS status send a get request to `localhost:5000/api/das/status`
+
+you should receive the following:
+```json
+{
+    "dasStatusBreaker1": true,
+    "dasStatusBreaker2": true,
+    "dasStatusBreaker3": false,
+    "dasStatusBreaker4": true,
+    "dasStatusBreaker5": false,
+    "dasStatusBreaker6": false,
+    "dasStatusBreaker7": false,
+    "dasStatusBreaker8": false,
+    "dasStatusBreaker9": false,
 }
 ```
 
