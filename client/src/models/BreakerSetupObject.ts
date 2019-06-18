@@ -10,7 +10,7 @@ export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
   public associatedInput: number;
   public associatedOutput: number;
 
-  constructor(values: Partial<SmartDAS.Models.BreakerSetupObject> = {}) {
+  constructor(public id: number, values: Partial<SmartDAS.Models.BreakerSetupObject> = {}) {
     this.breakerIP1 = values.breakerIP1 === undefined ? 0 : values.breakerIP1;
     this.breakerIP2 = values.breakerIP2 === undefined ? 0 : values.breakerIP2;
     this.breakerIP3 = values.breakerIP3 === undefined ? 0 : values.breakerIP3;
@@ -39,5 +39,31 @@ export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
     this.breakerIP3 = byteArray[2];
     this.breakerIP4 = byteArray[3];
 
+  }
+
+  get breakerTypeAsString() {
+    switch (this.type) {
+      case BreakerType.UNDEFINED:
+        return 'Not Configured'
+      case BreakerType.VA_BREAKER:
+        return 'VA Breaker'
+      case BreakerType.VL_BREAKER:
+        return 'VL Breaker'
+      case BreakerType.WL_BREAKER:
+        return 'WL Breaker';
+    }
+  }
+
+  get isConfigured() {
+    let isConfigured = true;
+    isConfigured = isConfigured && this.type !== 0;
+    isConfigured = isConfigured && this.ipAddress !== '0.0.0.0';
+    isConfigured = isConfigured && this.breakerSlaveId !== 0;
+
+    return isConfigured;
+  }
+
+  get isAlarmActive() {
+    return false;
   }
 }

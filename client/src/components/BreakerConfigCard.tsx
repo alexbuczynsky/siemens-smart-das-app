@@ -3,12 +3,14 @@
 // -------------------------------------------------------------------------
 
 // Import React
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardHeader, Avatar, CardContent, FormControl, Select, MenuItem, InputLabel, CardActions, TextField, Button } from '@material-ui/core';
 import { BreakerType, BreakerSetupObject } from '../models';
-import { smartAPI } from '../services/configured-services';
+import { SmartDASClientService } from '../services/configured-services';
+import { StoreActions } from '../store';
+import { IPAddressInputField } from './IPAddressInputField';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -23,6 +25,7 @@ const useStyles = makeStyles((theme: any) => ({
   },
   formField: {
     marginTop: '5px',
+    width: '100%',
   }
 }));
 
@@ -32,7 +35,6 @@ const useStyles = makeStyles((theme: any) => ({
 
 export type BreakerConfigCardProps = {
   config: BreakerSetupObject;
-  index: number;
 };
 
 /**
@@ -56,24 +58,25 @@ function isValidIPAddress(ipaddress: string) {
 export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
   const classes = useStyles();
 
+  const index = props.config.id;
+
   const [ipAddress, setIPAddress] = useState(props.config.ipAddress);
 
-  const [serverConfig, setServerConfig] = useState(new BreakerSetupObject(props.config));
+  const [serverConfig, setServerConfig] = useState(new BreakerSetupObject(index, props.config));
 
   const [breakerConfig, setBreakerConfig] = useState(props.config);
-
-
-  const index = props.index;
 
   const error = isValidIPAddress(ipAddress) === false;
 
   const handleSubmit = (e: any) => {
     console.log(e.target.value);
-    smartAPI
-      .updateBreakerConfigByIndex(props.index, breakerConfig)
+    SmartDASClientService
+      .updateBreakerConfigByIndex(index, breakerConfig)
       .then(updatedConfig => {
-        setBreakerConfig(new BreakerSetupObject(updatedConfig));
-        setServerConfig(new BreakerSetupObject(updatedConfig));
+        const newBreakerConfig = new BreakerSetupObject(index, updatedConfig);
+        setBreakerConfig(newBreakerConfig);
+        setServerConfig(newBreakerConfig);
+        StoreActions.Breakers.updateOne(newBreakerConfig);
       })
       .catch(err => alert(err))
   }
@@ -109,7 +112,7 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
 
     breakerConfig[key] = value;
 
-    setBreakerConfig(new BreakerSetupObject(breakerConfig));
+    setBreakerConfig(new BreakerSetupObject(index, breakerConfig));
   }
 
   const disableButton = hasChanged() === false || error;
@@ -133,16 +136,22 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
       <CardContent className={classes.cardContent}>
         <form autoComplete="off">
           <FormControl className={classes.formField} fullWidth>
+            <IPAddressInputField value={ipAddress} onChange={value => updateBreakerConfig('ipAddress', value)} />
+          </FormControl>
+
+          <FormControl className={classes.formField}>
             <TextField
-              error={error}
               id='outlined-error'
-              label='Server IP Address'
-              value={ipAddress}
-              onChange={e => updateBreakerConfig('ipAddress', e.target.value)}
+              label='Slave ID'
+              type="number"
+              value={breakerConfig.breakerSlaveId}
+              onChange={e => updateBreakerConfig('breakerSlaveId', parseInt(e.target.value, 10))}
               margin='normal'
               variant='outlined'
             />
           </FormControl>
+
+
           <FormControl className={classes.formField} fullWidth>
             <InputLabel>Device Type</InputLabel>
             <Select

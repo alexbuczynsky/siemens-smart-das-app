@@ -1,7 +1,12 @@
 import React from 'react';
 import './App.css';
 import { CssBaseline } from '@material-ui/core';
-import { DASConfigurationCard } from './components/DASConfigurationCard';
+import { DASDashboard } from './views/DASDashboard';
+import { EdisonThemeProvider } from '@smartgear/edison';
+import { StoreContext } from 'redux-react-hook';
+import Store from './store';
+import { NotificationProvider } from './components/Notifications';
+import { AppTitleBar } from './components/AppTitleBar';
 
 
 
@@ -9,12 +14,14 @@ import { DASConfigurationCard } from './components/DASConfigurationCard';
 const App: React.FC = () => {
 
   return (
-    <div className="App">
-      <header className="App-header">
+    <StoreContext.Provider value={Store}>
+      <EdisonThemeProvider theme="BrandVilleTheme">
+        <NotificationProvider />
+        <AppTitleBar />
         <CssBaseline />
-        <DASConfigurationCard />
-      </header>
-    </div>
+        <DASDashboard />
+      </EdisonThemeProvider>
+    </StoreContext.Provider>
   );
 }
 

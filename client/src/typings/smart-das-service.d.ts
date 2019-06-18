@@ -97,4 +97,67 @@ declare namespace SmartDAS.Models {
     ip: string;
   }
 
+  export interface Error {
+    Message: string;
+    ClassName: string;
+    StackTraceString: string;
+    /**
+     * @example "BreakerConfigAPI"
+     *
+     * @type {string}
+     * @memberof Error
+     */
+    Source: string;
+  }
+
+  export interface DASStatusPayload {
+    dasStatusBreaker1: boolean,
+    dasStatusBreaker2: boolean,
+    dasStatusBreaker3: boolean,
+    dasStatusBreaker4: boolean,
+    dasStatusBreaker5: boolean,
+    dasStatusBreaker6: boolean,
+    dasStatusBreaker7: boolean,
+    dasStatusBreaker8: boolean,
+    dasStatusBreaker9: boolean,
+  }
+
+  export interface DASActivatePayload {
+    dasActivateBreaker1: boolean,
+    dasActivateBreaker2: boolean,
+    dasActivateBreaker3: boolean,
+    dasActivateBreaker4: boolean,
+    dasActivateBreaker5: boolean,
+    dasActivateBreaker6: boolean,
+    dasActivateBreaker7: boolean,
+    dasActivateBreaker8: boolean,
+    dasActivateBreaker9: boolean,
+  }
+
+  export interface BreakerAlarmPayload {
+    comAlarmBreaker1: boolean,
+    comAlarmBreaker2: boolean,
+    comAlarmBreaker3: boolean,
+    comAlarmBreaker4: boolean,
+    comAlarmBreaker5: boolean,
+    comAlarmBreaker6: boolean,
+    comAlarmBreaker7: boolean,
+    comAlarmBreaker8: boolean,
+    comAlarmBreaker9: boolean,
+  }
+
+  export interface PLCNetworkConfig {
+    newIP1: number,
+    newIP2: number,
+    newIP3: number,
+    newIP4: number,
+    newSubnet1: number,
+    newSubnet2: number,
+    newSubnet3: number,
+    newSubnet4: number,
+    newGateway1: number,
+    newGateway2: number,
+    newGateway3: number,
+    newGateway4: number,
+  }
 }

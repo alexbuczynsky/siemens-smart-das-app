@@ -3,19 +3,38 @@
   // Hover to view descriptions of existing attributes.
   // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
-  "configurations": [{
+  "configurations": [ 
+
+  {
+    "name": ".NET Core Launch (console)",
+    "type": "coreclr",
+    "request": "launch",
+    // "preLaunchTask": "build",
+    "program": "${workspaceFolder}/server/bin/Debug/netcoreapp2.2/BreakerConfigAPI.dll",
+    "args": [],
+    "cwd": "${workspaceFolder}/server",
+    "stopAtEntry": false,
+    "console": "internalConsole",
+    // "pipeTransport": {
+    //   // "pipeCwd": "${workspaceFolder}/server",
+    //   // "pipeProgram": "ssh",
+    //   "pipeArgs": [],
+    //   "debuggerPath": "~/vsdbg/vsdbg"
+    // }
+  },
+  {
           "type": "chrome",
           "request": "launch",
           "name": "Launch Chrome against localhost",
           "url": "http://localhost:3000",
-          "webRoot": "${workspaceFolder}"
+          "webRoot": "${workspaceFolder}/client"
       },
       {
           "type": "chrome",
           "request": "launch",
           "name": "Launch Chrome against localhost (Arch Linux)",
           "url": "http://localhost:3000",
-          "webRoot": "${workspaceFolder}",
+          "webRoot": "${workspaceFolder}/client",
           "userDataDir": true,
           "runtimeExecutable": "/usr/bin/google-chrome-stable",
       }
