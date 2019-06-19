@@ -2,7 +2,7 @@ import { SmartDASClient } from "./SmartDASClient/API";
 import Store, { StoreActions } from "../store";
 import { AxiosError } from "axios";
 
-export const SmartDASClientService = new SmartDASClient(49955);
+export const SmartDASClientService = new SmartDASClient(36666);
 
 SmartDASClientService.client.interceptors.response.use(
   response => {
