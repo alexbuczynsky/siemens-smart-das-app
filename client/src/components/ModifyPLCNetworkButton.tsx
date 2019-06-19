@@ -6,14 +6,12 @@
 import React, { useEffect, useState } from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import Typography from '@material-ui/core/Typography';
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { IPAddressInputField } from './IPAddressInputField';
 import { AsyncSaveButton } from './AsyncSaveButton';
-import { useStore } from '../hooks';
 import { SmartDASClientService } from '../services/configured-services';
 import { StoreActions } from '../store';
-import { BreakerSetupObject } from '../models';
+import { useStore } from '../hooks';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -38,13 +36,13 @@ export type ModifyPLCNetworkButtonProps = {};
 export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = props => {
   const classes = useStyles();
 
-  const breakers = useStore(state => state.breakers.List);
-
   const [open, setOpen] = React.useState(false);
 
   const [ip, setIP] = useState('0.0.0.0');
   const [subnet, setSubnet] = useState('0.0.0.0');
   const [gateway, setGateway] = useState('0.0.0.0');
+
+  const PLCIsConnected = useStore(state => state.breakers.isPLCConnected);
 
   const [isValid, setIsValid] = React.useState({
     ip: true,
@@ -141,7 +139,7 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button disabled={!PLCIsConnected} variant="outlined" color="primary" onClick={handleClickOpen}>
         Change Network Settings
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -175,7 +173,7 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Close
           </Button>
           <AsyncSaveButton disabled={!(isValid.gateway && isValid.subnet && isValid.ip)} onClick={handleSave} />
         </DialogActions>

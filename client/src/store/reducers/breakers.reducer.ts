@@ -2,9 +2,8 @@
 // IMPORTS
 // -------------------------------------------------------------------------
 import { createMsg, ActionMap, ActionMapActions } from '../tools/Messages';
-import { CreateItem, RemoveItem, UpdateItem } from '../tools/ReduxArrayHelpers';
+import { CreateItem, RemoveItem } from '../tools/ReduxArrayHelpers';
 import { BreakerSetupObject } from '../../models';
-// import { Task, TaskHelpers } from '../tools/RunningTaskHelpers';
 
 // -------------------------------------------------------------------------
 // DEFINE MODEL / ACTIONS / MESSAGES
@@ -19,6 +18,8 @@ export enum BreakerActions {
   SetDASActivateCommands = 'Breakers/SetDASActivateCommands',
   SetAlarms = 'Breakers/SetAlarms',
   SetPLCConnectionStatus = 'Breakers/SetPLCConnectionStatus',
+  SetPLCConnectionState = 'Breakers/SetPLCConnectionState',
+  SetBackendConnection = 'Breakers/SetBackendConnection'
 }
 
 export interface Messages {
@@ -30,7 +31,8 @@ export interface Messages {
   [BreakerActions.SetDASActivateCommands]: { commands: SmartDAS.Models.DASActivatePayload }
   [BreakerActions.SetAlarms]: { alarms: SmartDAS.Models.BreakerAlarmPayload }
   [BreakerActions.SetPLCConnectionStatus]: { isConnected: boolean }
-
+  [BreakerActions.SetPLCConnectionState]: { status: SmartDAS.Models.PLCConnectionStatusPayload }
+  [BreakerActions.SetBackendConnection]: { isConnected: boolean }
 }
 
 export const Msg = createMsg<Messages>();
@@ -43,7 +45,9 @@ export type Actions = ActionMapActions<Messages>;
 // -------------------------------------------------------------------------
 
 interface BreakerState {
+  PLCConnectionState: SmartDAS.Models.PLCConnectionStatusPayload,
   isPLCConnected: boolean;
+  isBackendAPIConnected: boolean;
   List: BreakerSetupObject[];
   DAS: {
     status: SmartDAS.Models.DASStatusPayload,
@@ -53,7 +57,12 @@ interface BreakerState {
 }
 
 const initialState: BreakerState = {
+  PLCConnectionState: {
+    code: 9,
+    message: "CLI : Client not connected",
+  },
   isPLCConnected: false,
+  isBackendAPIConnected: false,
   List: [],
   DAS: {
     status: {
@@ -98,7 +107,6 @@ const initialState: BreakerState = {
 
 const addBreaker = (state: BreakerState, model: BreakerSetupObject) => CreateItem(state.List, model);
 const removeBreaker = (state: BreakerState, id: string) => RemoveItem(state.List, id, 'id');
-const updateBreaker = (state: BreakerState, model: BreakerSetupObject) => UpdateItem(state.List, model, 'id');
 
 // -------------------------------------------------------------------------
 // REDUCER
@@ -136,6 +144,12 @@ export const BreakerReducer = (state = initialState, action: Actions) => {
       break;
     case BreakerActions.SetPLCConnectionStatus:
       state.isPLCConnected = action.payload.isConnected;
+      break;
+    case BreakerActions.SetPLCConnectionState:
+      state.PLCConnectionState = action.payload.status;
+      break;
+    case BreakerActions.SetBackendConnection:
+      state.isBackendAPIConnected = action.payload.isConnected;
       break;
 
     // // HANDLE FETCHING OF ALL BreakerS

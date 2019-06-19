@@ -3,17 +3,16 @@
 // -------------------------------------------------------------------------
 
 // Import React
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
 import { Grid } from '@material-ui/core';
-import { BreakerConfigCard } from '../components/BreakerConfigCard';
 import { BreakerSetupObject } from '../models';
 import { SmartDASClientService } from '../services/configured-services';
 import { ConnectionStatusCard } from '../components/PLCConnectionStatusCard';
 import { ConfiguredBreakersCard } from '../components/ConfiguredBreakers/Card';
 import { useStore, useInterval } from '../hooks';
-import { StoreActions } from '../store';
+import Store, { StoreActions } from '../store';
 import { ToolsCard } from '../components/ToolsCard';
 
 // -------------------------------------------------------------------------
@@ -41,7 +40,9 @@ export type DASDashboardProps = {};
 export const DASDashboard: React.FC<DASDashboardProps> = props => {
   const classes = useStyles();
 
-  const isPLCConnected = useStore(state => state.breakers.isPLCConnected);
+  const PLCIsConnected = useStore(state => state.breakers.isPLCConnected);
+
+  const [fetchStatusInterval, setFetchStatusInterval] = useState(2000);
 
   useEffect(() => {
     SmartDASClientService
@@ -50,7 +51,22 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
         StoreActions.Breakers.updateAll(config.map((x, ii) => new BreakerSetupObject(ii + 1, x)))
       })
       .catch(err => console.error(err))
-  }, [isPLCConnected])
+  }, [PLCIsConnected])
+
+
+  // CHECK PLC CONNECTION STATUS
+  useInterval(() => {
+    StoreActions.TestPLCConnection();
+  }, 3000)
+
+  useEffect(() => {
+    if (PLCIsConnected) {
+      setFetchStatusInterval(2000);
+    } else {
+      setFetchStatusInterval(0);
+    }
+  }, [PLCIsConnected])
+
 
   useInterval(() => {
     SmartDASClientService
@@ -70,7 +86,7 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
       .then(commands => {
         StoreActions.Breakers.updateDASCommands(commands);
       })
-  }, 1000)
+  }, fetchStatusInterval)
 
 
 

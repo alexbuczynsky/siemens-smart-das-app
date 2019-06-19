@@ -6,9 +6,10 @@
 import React, { useState } from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import { Card, CardHeader, CardContent, CardActions, Button } from '@material-ui/core';
+import { Card, CardHeader, CardActions, Button } from '@material-ui/core';
 import { WiringWizardDialog } from './WiringWizard/WiringWizardDialog';
 import { ChangeAllBreakerIPButton } from './ChangeAllBreakerIPButton';
+import { useStore } from '../hooks';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -34,6 +35,7 @@ export const ToolsCard: React.FC<ToolsCardProps> = props => {
   const classes = useStyles();
 
   const [isWiringWizardOpen, setWiringWizardIsOpen] = useState(false);
+  const PLCIsConnected = useStore(state => state.breakers.isPLCConnected);
 
 
   return (
@@ -43,11 +45,12 @@ export const ToolsCard: React.FC<ToolsCardProps> = props => {
         <CardHeader title="Tools"></CardHeader>
         <CardActions>
           <Button
+            disabled={!PLCIsConnected}
             onClick={() => setWiringWizardIsOpen(true)}
             variant="contained"
             color="primary"
           >Wiring Wizard</Button>
-          <ChangeAllBreakerIPButton />
+          <ChangeAllBreakerIPButton disabled={!PLCIsConnected} />
         </CardActions>
       </Card>
     </div>

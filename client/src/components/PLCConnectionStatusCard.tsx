@@ -11,6 +11,9 @@ import { ModifyPLCNetworkButton } from './ModifyPLCNetworkButton';
 import { useStore } from '../hooks';
 import { BrandvilleIcons } from '@smartgear/icons';
 import { ModifyTargetPLCButton } from './ModifyTargetPLCButton';
+import { PLCToPCConnection } from './PLCToPCConnection';
+
+
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -27,7 +30,8 @@ const useStyles = makeStyles((theme) => ({
   offlineAvatar: {
     color: theme.palette.error.contrastText,
     backgroundColor: theme.palette.error.light,
-  }
+  },
+
 }));
 
 // -------------------------------------------------------------------------
@@ -44,6 +48,8 @@ export const ConnectionStatusCard: React.FC<ConnectionStatusCardProps> = props =
   const classes = useStyles();
 
   const isPLCConnected = useStore(state => state.breakers.isPLCConnected);
+  const isBackendConnected = useStore(state => state.breakers.isBackendAPIConnected);
+  const connectionState = useStore(state => state.breakers.PLCConnectionState);
 
   return (
     <div className={classes.root}>
@@ -54,12 +60,16 @@ export const ConnectionStatusCard: React.FC<ConnectionStatusCardProps> = props =
               {isPLCConnected ? <BrandvilleIcons.CheckMark /> : <BrandvilleIcons.Close />}
             </Avatar>
           }
-          title="PLC Connection Status"></CardHeader>
+          title="PLC Connection Status"
+          subheader={`Code: ${connectionState.code} | Message: ${connectionState.message}`} />
         <CardContent>
-          <Typography>{`PLC IS ${isPLCConnected ? "CONNECTED" : "DISCONNECTED"}`}</Typography>
+          <PLCToPCConnection
+            isPLCConnected={isPLCConnected}
+            isBackendConnected={isBackendConnected}
+          />
         </CardContent>
         <CardActions>
-          <ModifyTargetPLCButton />
+          <ModifyTargetPLCButton variant={isPLCConnected ? "outlined" : "contained"} />
           <ModifyPLCNetworkButton />
         </CardActions>
       </Card>

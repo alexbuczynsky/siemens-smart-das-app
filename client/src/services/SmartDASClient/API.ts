@@ -102,6 +102,12 @@ export class SmartDASClient {
     return response.data;
   }
 
+  async getPLCConnectionStatus() {
+    const response = await this.client.get<SmartDAS.Models.PLCConnectionStatusPayload>('plc/test-connection');
+
+    return response.data;
+  }
+
 
 
 

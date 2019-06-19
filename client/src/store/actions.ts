@@ -1,4 +1,4 @@
-import store from './store.model';
+import Store from './store.model';
 
 import {
   Msg,
@@ -9,8 +9,9 @@ import {
 
 import { NewNotification, Notification } from './reducers/notification.reducer';
 import { BreakerSetupObject } from '../models';
+import { SmartDASClientService } from '../services/configured-services';
 
-const dispatch = store.dispatch;
+const dispatch = Store.dispatch;
 
 interface PublishNotifOptions {
   title: string;
@@ -92,4 +93,40 @@ export const Breakers = {
       isConnected,
     }))
   }
+}
+
+export function TestPLCConnection() {
+  return SmartDASClientService.getPLCConnectionStatus()
+    .then(payload => {
+      const isConnected = Store.getState().breakers.isPLCConnected;
+      if (payload.code === 0) {
+        if (isConnected === false) {
+          Notifications.publishSuccess({
+            title: 'PLC Connected',
+            message: 'Connection established with PLC'
+          })
+          Breakers.setPLCConnectionStatus(true);
+        }
+      }
+
+      else {
+        if (isConnected === true) {
+          Notifications.publishError({
+            title: 'Cannot Connect to PLC',
+            message: `${payload.message}, code: ${payload.code}`
+          })
+          Breakers.setPLCConnectionStatus(false);
+        }
+      }
+
+      dispatch(Msg(BreakerActions.SetPLCConnectionState, {
+        status: payload,
+      }))
+    })
+}
+
+export function setBackendConnectionStatus(connected: boolean) {
+  dispatch(Msg(BreakerActions.SetBackendConnection, {
+    isConnected: connected
+  }))
 }
