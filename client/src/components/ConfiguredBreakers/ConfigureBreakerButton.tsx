@@ -5,22 +5,11 @@
 // Import React
 import React, { useState } from 'react';
 // Material UI Imports
-import { makeStyles } from '@smartgear/edison';
 import { IconButton } from '@material-ui/core';
 
 import { BrandvilleIcons } from '@smartgear/icons'
 import { ConfigureBreakerDialog } from './ConfigureBreakerDialog';
 import { BreakerSetupObject } from '../../models';
-
-// -------------------------------------------------------------------------
-// STYLES
-// -------------------------------------------------------------------------
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    maxWidth: '100%'
-  }
-}));
 
 // -------------------------------------------------------------------------
 // OPTIONS
@@ -35,8 +24,6 @@ export type ConfigureBreakerButtonProps = {
 // -------------------------------------------------------------------------
 
 export const ConfigureBreakerButton: React.FC<ConfigureBreakerButtonProps> = props => {
-  const classes = useStyles();
-
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => setIsOpen(true);

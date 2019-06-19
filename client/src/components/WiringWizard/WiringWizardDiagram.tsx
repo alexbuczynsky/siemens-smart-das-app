@@ -12,16 +12,11 @@ import {
   DefaultNodeModel,
   LinkModel,
   DiagramWidget,
-  DefaultLinkModel,
-  DefaultNodeFactory,
-  DefaultLinkFactory,
   DefaultPortModel,
   DiagramProps,
-  DiagramListener,
-  NodeModel,
 } from "storm-react-diagrams";
-import { useStore, useInterval } from '../../hooks';
-import { Button, Divider } from '@material-ui/core';
+import { useStore} from '../../hooks';
+import { Divider } from '@material-ui/core';
 import { SmartDASClientService } from '../../services/configured-services';
 import Store, { StoreActions } from '../../store';
 import { BreakerSetupObject } from '../../models';

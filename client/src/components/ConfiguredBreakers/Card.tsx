@@ -7,7 +7,7 @@ import React from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
 import Typography from '@material-ui/core/Typography';
-import { Card, CardHeader, CardContent, Divider } from '@material-ui/core';
+import { Card, CardContent } from '@material-ui/core';
 import { BreakerList } from './List';
 import { useStore } from '../../hooks';
 

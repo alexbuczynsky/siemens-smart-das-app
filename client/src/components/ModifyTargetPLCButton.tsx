@@ -5,38 +5,24 @@
 // Import React
 import React, { useEffect, useState } from 'react';
 // Material UI Imports
-import { makeStyles } from '@smartgear/edison';
-import Typography from '@material-ui/core/Typography';
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { IPAddressInputField } from './IPAddressInputField';
 import { AsyncSaveButton } from './AsyncSaveButton';
-import { useStore } from '../hooks';
 import { SmartDASClientService } from '../services/configured-services';
 import { StoreActions } from '../store';
-import { BreakerSetupObject } from '../models';
-
-// -------------------------------------------------------------------------
-// STYLES
-// -------------------------------------------------------------------------
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    maxWidth: '100%'
-  }
-}));
+import { ButtonProps } from '@material-ui/core/Button';
 
 // -------------------------------------------------------------------------
 // OPTIONS
 // -------------------------------------------------------------------------
 
-export type ModifyTargetPLCButtonProps = {};
+export interface ModifyTargetPLCButtonProps extends ButtonProps { };
 
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
 // -------------------------------------------------------------------------
 
 export const ModifyTargetPLCButton: React.FC<ModifyTargetPLCButtonProps> = props => {
-  const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
 
@@ -99,7 +85,7 @@ export const ModifyTargetPLCButton: React.FC<ModifyTargetPLCButtonProps> = props
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button variant="outlined" color="primary" {...props} onClick={handleClickOpen}>
         Change Target PLC
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -118,7 +104,7 @@ export const ModifyTargetPLCButton: React.FC<ModifyTargetPLCButtonProps> = props
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Close
           </Button>
           <AsyncSaveButton disabled={!(isValid.ip)} onClick={handleSave} />
         </DialogActions>

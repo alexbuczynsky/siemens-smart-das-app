@@ -1,4 +1,4 @@
-import { useMappedState, StoreContext } from 'redux-react-hook';
+import { useMappedState } from 'redux-react-hook';
 import { RootState } from '../store/reducers';
 import { useCallback } from 'react';
 import { useThrottle } from './useThrottle';

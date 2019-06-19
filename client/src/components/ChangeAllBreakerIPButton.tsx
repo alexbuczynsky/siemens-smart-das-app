@@ -6,14 +6,14 @@
 import React from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import Typography from '@material-ui/core/Typography';
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, TextField, DialogActions } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
 import { IPAddressInputField } from './IPAddressInputField';
 import { AsyncSaveButton } from './AsyncSaveButton';
 import { useStore } from '../hooks';
 import { SmartDASClientService } from '../services/configured-services';
 import { StoreActions } from '../store';
 import { BreakerSetupObject } from '../models';
+import { ButtonProps } from '@material-ui/core/Button';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
 // OPTIONS
 // -------------------------------------------------------------------------
 
-export type ChangeAllBreakerIPButtonProps = {};
+export interface ChangeAllBreakerIPButtonProps extends ButtonProps { };
 
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
@@ -81,7 +81,7 @@ export const ChangeAllBreakerIPButton: React.FC<ChangeAllBreakerIPButtonProps> =
 
   return (
     <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button {...props} variant="outlined" color="primary" onClick={handleClickOpen}>
         Set All Breaker IP
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
@@ -97,7 +97,7 @@ export const ChangeAllBreakerIPButton: React.FC<ChangeAllBreakerIPButtonProps> =
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">
-            Cancel
+            Close
           </Button>
           <AsyncSaveButton disabled={!isValid} onClick={handleSave} />
         </DialogActions>

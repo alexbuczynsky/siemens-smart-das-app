@@ -3,7 +3,7 @@
 // -------------------------------------------------------------------------
 
 // Import React
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import { makeStyles } from '@material-ui/styles';
 import { Card, CardHeader, Avatar, CardContent, FormControl, Select, MenuItem, InputLabel, CardActions, TextField, Button } from '@material-ui/core';
@@ -78,7 +78,12 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
         setServerConfig(newBreakerConfig);
         StoreActions.Breakers.updateOne(newBreakerConfig);
       })
-      .catch(err => alert(err))
+      .catch(err => {
+        StoreActions.Notifications.publishError({
+          title: 'Update Breaker Config Failed',
+          message: err.message,
+        })
+      })
   }
 
 

@@ -94,6 +94,8 @@ export class Notification {
         return 'warning';
       case NotificationLevel.Danger:
         return 'error';
+      default:
+        throw new Error("Notification Level Not Supported")
     }
   }
 }

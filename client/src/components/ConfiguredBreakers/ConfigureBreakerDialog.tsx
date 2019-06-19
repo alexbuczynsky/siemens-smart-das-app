@@ -3,10 +3,9 @@
 // -------------------------------------------------------------------------
 
 // Import React
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import Typography from '@material-ui/core/Typography';
 import { Dialog, DialogTitle, DialogActions, Button, DialogContent } from '@material-ui/core';
 import { BreakerSetupObject } from '../../models';
 import { BreakerConfigCard } from '../BreakerConfigCard';
@@ -40,15 +39,6 @@ export const ConfigureBreakerDialog: React.FC<ConfigureBreakerDialogProps> = pro
 
   const [isOpen, setIsOpen] = useState(props.isOpen);
 
-  useEffect(() => {
-    if (props.isOpen) {
-      handleOpen();
-    } else {
-      handleClose();
-    }
-
-  }, [props.isOpen])
-
   const handleClose = () => {
     if (props.onClose) {
       props.onClose();
@@ -59,6 +49,15 @@ export const ConfigureBreakerDialog: React.FC<ConfigureBreakerDialogProps> = pro
   const handleOpen = () => {
     setIsOpen(true);
   }
+
+  useEffect(() => {
+    if (props.isOpen) {
+      handleOpen();
+    } else {
+      handleClose();
+    }
+
+  }, [props.isOpen])
 
 
   const { breaker } = props;

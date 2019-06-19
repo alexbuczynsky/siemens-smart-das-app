@@ -5,7 +5,6 @@
 // Import React
 import React, { useEffect } from 'react';
 // Material UI Imports
-import { makeStyles } from '@smartgear/edison';
 import { useNotificationStyles } from './style';
 import { useSnackbar } from 'notistack';
 import useStore from '../../hooks/useStore';
@@ -14,16 +13,6 @@ import clsx from 'clsx';
 import { StoreActions } from '../../store';
 import { SnackbarContent } from '@material-ui/core';
 import { NotificationContent } from './NotificationContent';
-
-// -------------------------------------------------------------------------
-// STYLES
-// -------------------------------------------------------------------------
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    maxWidth: '100%',
-  },
-}));
 
 // -------------------------------------------------------------------------
 // OPTIONS

@@ -6,9 +6,8 @@
 import React from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import Typography from '@material-ui/core/Typography';
 
-import { SnackbarProvider, useSnackbar } from 'notistack';
+import { SnackbarProvider } from 'notistack';
 import { NotificationContainer } from './NotificationContainer';
 
 // -------------------------------------------------------------------------

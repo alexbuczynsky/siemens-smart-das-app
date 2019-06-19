@@ -6,7 +6,6 @@
 import React, { useState, useEffect } from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import { useStore } from '../../hooks';
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@material-ui/core';
 import { WiringWizardDiagram } from './WiringWizardDiagram';
 

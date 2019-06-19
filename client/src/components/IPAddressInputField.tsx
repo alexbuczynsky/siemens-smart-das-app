@@ -6,9 +6,7 @@
 import React from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import Typography from '@material-ui/core/Typography';
 import { TextField } from '@material-ui/core';
-import { BaseTextFieldProps } from '@material-ui/core/TextField';
 
 // -------------------------------------------------------------------------
 // STYLES
