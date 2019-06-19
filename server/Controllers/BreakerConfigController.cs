@@ -48,17 +48,22 @@ namespace BreakerConfigAPI.Controllers {
         [HttpPut ("{id}")]
         public ActionResult<BreakerSetupObject> Put (int id, [FromBody] BreakerSetupObject newConfiguration) {
             id = id - 1;
-            if (id >= 0 && id < DB.breakerConfigManager.configurations.Length) {
-                PLC_COM.readConfigData ();
+            try {
+                if (id >= 0 && id < DB.breakerConfigManager.configurations.Length) {
+                    PLC_COM.readConfigData ();
 
-                DB.breakerConfigManager.configurations[id] = newConfiguration;
+                    DB.breakerConfigManager.configurations[id] = newConfiguration;
 
-                PLC_COM.saveConfigData (DB.breakerConfigManager.getSetupStructure ());
+                    PLC_COM.saveConfigData (DB.breakerConfigManager.getSetupStructure ());
 
-                return DB.breakerConfigManager.configurations[id];
-            } else {
-                return NotFound ();
+                    return DB.breakerConfigManager.configurations[id];
+                } else {
+                    return NotFound ();
+                }
+            } catch (Exception e) {
+                return StatusCode (500, e);
             }
+            
         }
 
     }
