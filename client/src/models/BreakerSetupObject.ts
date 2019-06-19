@@ -1,6 +1,34 @@
 import { BreakerType } from "./BreakerType";
+import { SiteSetupStructure } from "./SiteSetupStructure";
+
+export const NUMBER_OF_SUPPORTED_BREAKERS = 9;
 
 export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
+
+  public static ConvertToSiteSetupStructure(breakers: BreakerSetupObject[]) {
+    if (breakers.length !== NUMBER_OF_SUPPORTED_BREAKERS) {
+      throw new Error(`Must contain ${NUMBER_OF_SUPPORTED_BREAKERS} breakers`)
+    }
+
+    const config = new SiteSetupStructure();
+
+    breakers.forEach(breaker => {
+      const id = breaker.id;
+      (config as any)[`breaker${id}IP1`] = breaker.breakerIP1;
+      (config as any)[`breaker${id}IP2`] = breaker.breakerIP2;
+      (config as any)[`breaker${id}IP3`] = breaker.breakerIP3;
+      (config as any)[`breaker${id}IP4`] = breaker.breakerIP4;
+      (config as any)[`breaker${id}Type`] = breaker.type;
+      (config as any)[`breaker${id}SlaveID`] = breaker.breakerSlaveId;
+      (config as any)[`breaker${id}AssociatedInput`] = breaker.associatedInput;
+      (config as any)[`breaker${id}AssociatedOutput`] = breaker.associatedOutput;
+    });
+
+    return config;
+
+
+  }
+
   public breakerIP1: number;
   public breakerIP2: number;
   public breakerIP3: number;
@@ -51,6 +79,8 @@ export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
         return 'VL Breaker'
       case BreakerType.WL_BREAKER:
         return 'WL Breaker';
+      default:
+        throw new Error("Not Acceptable Breaker Enumerable");
     }
   }
 
