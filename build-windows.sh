@@ -10,8 +10,8 @@ dotnet publish -r win10-x64 --output bin/dist/win
 
 cd ../client
 
-npm install
+yarn
 
-npm run build
+yarn run build
 
-npm run build:electron:windows
+yarn run build:electron:windows
