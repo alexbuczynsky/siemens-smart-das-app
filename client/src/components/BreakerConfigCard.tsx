@@ -16,7 +16,7 @@ import { IPAddressInputField } from './IPAddressInputField';
 // STYLES
 // -------------------------------------------------------------------------
 
-const useStyles = makeStyles((theme: any) => ({
+const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: '100%'
   },
