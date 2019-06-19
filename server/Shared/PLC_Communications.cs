@@ -9,7 +9,11 @@ namespace BreakerConfigAPI.Communications.PLC {
     public static getConfigClass readConfig = new getConfigClass ();
     public static writeConfigClass saveConfig = new writeConfigClass ();
 
-    public static bool byPassErrors = false;
+    /// <summary>
+    /// If true, the server will not send back error messages, and will instead
+    /// just send back default classes and 0 error codes.
+    /// </summary>
+    public static bool DemoMode = false;
 
     public static siteSetupStructure readConfigData () {
       var ipAddress = PLC_COM.config.IP;
@@ -19,7 +23,7 @@ namespace BreakerConfigAPI.Communications.PLC {
         newStructure = PLC_COM.readConfig.readConfigData (ipAddress);
         DB.breakerConfigManager.setSetupStructure (newStructure);
       } catch (Exception e) {
-        if (PLC_COM.byPassErrors == false) {
+        if (PLC_COM.DemoMode == false) {
           throw e;
         }
       }
@@ -29,14 +33,14 @@ namespace BreakerConfigAPI.Communications.PLC {
 
     public static siteSetupStructure saveConfigData (siteSetupStructure newStructure) {
       var ipAddress = PLC_COM.config.IP;
-      Console.WriteLine ($"IP ADDRESS: {ipAddress}");
-      Console.WriteLine ($"New Structure: {newStructure.breaker3IP1}");
+      // Console.WriteLine ($"IP ADDRESS: {ipAddress}");
+      // Console.WriteLine ($"New Structure: {newStructure.breaker3IP1}");
       // PLC_COM.saveConfig.writeConfig(ipAddress, newStructure);
 
       try {
         PLC_COM.saveConfig.writeConfig (ipAddress, newStructure);
       } catch (Exception e) {
-        if (PLC_COM.byPassErrors == false) {
+        if (PLC_COM.DemoMode == false) {
           throw e;
         }
       }
