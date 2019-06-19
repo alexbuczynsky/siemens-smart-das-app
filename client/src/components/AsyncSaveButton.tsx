@@ -3,13 +3,14 @@
 // -------------------------------------------------------------------------
 
 // Import React
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
 import clsx from 'clsx';
 import { Fab, CircularProgress } from '@material-ui/core';
 import CheckIcon from '@material-ui/icons/Check';
 import SaveIcon from '@material-ui/icons/Save';
+import IOIcon from '@material-ui/icons/ImportExport';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: 'center',
   },
   wrapper: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
     position: 'relative',
   },
   buttonSuccess: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   fabProgress: {
-    color: theme.palette.greens[500],
+    color: theme.palette.primary.light,
     position: 'absolute',
     top: -6,
     left: -6,
@@ -91,6 +92,18 @@ export const AsyncSaveButton: React.FC<AsyncSaveButtonProps> = props => {
       setLoading(true);
     }
   }
+
+  const getIcon = () => {
+    if (success) {
+      return <CheckIcon />
+    }
+
+    if (loading) {
+      return <IOIcon />
+    }
+
+    return <SaveIcon />
+  }
   return (
     <div className={classes.root}>
       <div className={classes.wrapper}>
@@ -101,7 +114,7 @@ export const AsyncSaveButton: React.FC<AsyncSaveButtonProps> = props => {
           onClick={handleButtonClick}
           disabled={props.disabled}
         >
-          {success ? <CheckIcon /> : <SaveIcon />}
+          {getIcon()}
         </Fab>
         {loading && <CircularProgress size={68} className={classes.fabProgress} />}
       </div>
