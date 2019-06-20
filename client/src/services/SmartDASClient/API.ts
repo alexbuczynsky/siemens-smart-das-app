@@ -84,6 +84,12 @@ export class SmartDASClient {
     return response.data;
   }
 
+  async setDASActiveCommands(data: SmartDAS.Models.DASActivatePayload) {
+    const response = await this.client.put<SmartDAS.Models.DASActivatePayload>('das/commands', data);
+
+    return response.data;
+  }
+
   async getActiveAlarms() {
     const response = await this.client.get<SmartDAS.Models.BreakerAlarmPayload>('breaker-alarms');
 

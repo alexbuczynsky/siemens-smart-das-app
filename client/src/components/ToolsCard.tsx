@@ -11,6 +11,7 @@ import { WiringWizardDialog } from './WiringWizard/WiringWizardDialog';
 import { ChangeAllBreakerIPButton } from './ChangeAllBreakerIPButton';
 import { useStore } from '../hooks';
 import { ChangeSwitchTypeButton } from './ChangeSwitchTypeButton';
+import { SetDASModeDialogButton } from './SetDASModeDialogButton';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -53,6 +54,7 @@ export const ToolsCard: React.FC<ToolsCardProps> = props => {
           >Wiring Wizard</Button>
           <ChangeAllBreakerIPButton disabled={!PLCIsConnected} />
           <ChangeSwitchTypeButton disabled={!PLCIsConnected} />
+          <SetDASModeDialogButton disabled={!PLCIsConnected} />
         </CardActions>
       </Card>
     </div>
