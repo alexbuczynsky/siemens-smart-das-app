@@ -16,17 +16,18 @@ export class SiteSetupStructure implements SmartDAS.Models.SiteSetupStructure {
       return x = new BreakerSetupObject(ii);
     })
 
+    const setupStructure = new SiteSetupStructure(config);
+
     breakers.forEach(breaker => {
       const id = breaker.id;
-      breaker.breakerIP1 = (config as any)[`breaker${id}IP1`];
-      breaker.breakerIP2 = (config as any)[`breaker${id}IP2`];
-      breaker.breakerIP3 = (config as any)[`breaker${id}IP3`];
-      breaker.breakerIP4 = (config as any)[`breaker${id}IP4`];
-      breaker.type = (config as any)[`breaker${id}Type`];
-      breaker.breakerSlaveId = (config as any)[`breaker${id}SlaveID`];
-
-      breaker.associatedInput = (config as any)[`breaker${id}AssociatedInput`];
-      breaker.associatedOutput = (config as any)[`breaker${id}AssociatedOutput`];
+      breaker.breakerIP1 = setupStructure.getValue(`breaker${id}IP1`);
+      breaker.breakerIP2 = setupStructure.getValue(`breaker${id}IP2`);
+      breaker.breakerIP3 = setupStructure.getValue(`breaker${id}IP3`);
+      breaker.breakerIP4 = setupStructure.getValue(`breaker${id}IP4`);
+      breaker.type = setupStructure.getValue(`breaker${id}Type`);
+      breaker.breakerSlaveId = setupStructure.getValue(`breaker${id}SlaveID`);
+      breaker.associatedInput = setupStructure.getValue(`breaker${id}AssociatedInput`);
+      breaker.associatedOutput = setupStructure.getValue(`breaker${id}AssociatedOutput`);
     });
 
     return breakers;
@@ -185,6 +186,36 @@ export class SiteSetupStructure implements SmartDAS.Models.SiteSetupStructure {
 
   get breakers(): BreakerSetupObject[] {
     return SiteSetupStructure.ConvertToBreakerSetupObjectArray(this);
+  }
+
+  /**
+   * Avoids key type checks and allows
+   * the values to be set
+   *
+   * @param {string} key
+   * @param {any} value
+   * @memberof SiteSetupStructure
+   */
+  public setValue(key: string, value: any) {
+    const that = this as any;
+    const keyExists = Object.keys(this).includes(key);
+
+    if (!keyExists) {
+      throw new Error(`The key specified "${key}" does not exist on the SiteSetupStructure class`)
+    }
+
+    that[key] = value;
+  }
+
+  public getValue(key: string) {
+    const that = this as any;
+    const keyExists = Object.keys(this).includes(key);
+
+    if (!keyExists) {
+      throw new Error(`The key specified "${key}" does not exist on the SiteSetupStructure class`)
+    }
+
+    return that[key];
   }
 
 

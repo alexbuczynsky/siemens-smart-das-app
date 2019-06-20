@@ -14,14 +14,14 @@ export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
 
     breakers.forEach(breaker => {
       const id = breaker.id;
-      (config as any)[`breaker${id}IP1`] = breaker.breakerIP1;
-      (config as any)[`breaker${id}IP2`] = breaker.breakerIP2;
-      (config as any)[`breaker${id}IP3`] = breaker.breakerIP3;
-      (config as any)[`breaker${id}IP4`] = breaker.breakerIP4;
-      (config as any)[`breaker${id}Type`] = breaker.type;
-      (config as any)[`breaker${id}SlaveID`] = breaker.breakerSlaveId;
-      (config as any)[`breaker${id}AssociatedInput`] = breaker.associatedInput;
-      (config as any)[`breaker${id}AssociatedOutput`] = breaker.associatedOutput;
+      config.setValue(`breaker${id}IP1`, breaker.breakerIP1);
+      config.setValue(`breaker${id}IP2`, breaker.breakerIP2);
+      config.setValue(`breaker${id}IP3`, breaker.breakerIP3);
+      config.setValue(`breaker${id}IP4`, breaker.breakerIP4);
+      config.setValue(`breaker${id}Type`, breaker.type);
+      config.setValue(`breaker${id}SlaveID`, breaker.breakerSlaveId);
+      config.setValue(`breaker${id}AssociatedInput`, breaker.associatedInput);
+      config.setValue(`breaker${id}AssociatedOutput`, breaker.associatedOutput);
     });
 
     return config;
