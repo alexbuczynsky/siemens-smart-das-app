@@ -5,7 +5,7 @@ export const NUMBER_OF_SUPPORTED_BREAKERS = 9;
 
 export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
 
-  public static ConvertToSiteSetupStructure(breakers: BreakerSetupObject[]) {
+  public static ConvertToSiteSetupStructure(breakers: BreakerSetupObject[], switchType: SmartDAS.Models.SiteSwitchType) {
     if (breakers.length !== NUMBER_OF_SUPPORTED_BREAKERS) {
       throw new Error(`Must contain ${NUMBER_OF_SUPPORTED_BREAKERS} breakers`)
     }
@@ -23,6 +23,8 @@ export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
       config.setValue(`breaker${id}AssociatedInput`, breaker.associatedInput);
       config.setValue(`breaker${id}AssociatedOutput`, breaker.associatedOutput);
     });
+
+    config.switchType = switchType;
 
     return config;
 

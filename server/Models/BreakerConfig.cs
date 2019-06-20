@@ -18,6 +18,7 @@ namespace BreakerConfigAPI.Models {
   }
 
   public class BreakerConfigManager {
+    public SiteSwitchType switchType = 0;
 
     public BreakerSetupObject[] configurations = new BreakerSetupObject[9]{
       new BreakerSetupObject(),
@@ -114,6 +115,8 @@ namespace BreakerConfigAPI.Models {
         breaker9Type = configurations[8].type,
         breaker9AssociatedOutput = configurations[8].associatedOutput,
         breaker9AssociatedInput = configurations[8].associatedInput,
+
+        switchType = switchType,
       };
     }
 
@@ -198,6 +201,8 @@ namespace BreakerConfigAPI.Models {
         configurations[8].type = newSetup.breaker9Type;
         configurations[8].associatedOutput = newSetup.breaker9AssociatedOutput;
         configurations[8].associatedInput = newSetup.breaker9AssociatedInput;
+
+        switchType = newSetup.switchType;
     }
 
     public BreakerSetupObject[] readBreakerConfigs() {

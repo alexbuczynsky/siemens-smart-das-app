@@ -10,6 +10,7 @@ import { Card, CardHeader, CardActions, Button } from '@material-ui/core';
 import { WiringWizardDialog } from './WiringWizard/WiringWizardDialog';
 import { ChangeAllBreakerIPButton } from './ChangeAllBreakerIPButton';
 import { useStore } from '../hooks';
+import { ChangeSwitchTypeButton } from './ChangeSwitchTypeButton';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -51,6 +52,7 @@ export const ToolsCard: React.FC<ToolsCardProps> = props => {
             color="primary"
           >Wiring Wizard</Button>
           <ChangeAllBreakerIPButton disabled={!PLCIsConnected} />
+          <ChangeSwitchTypeButton disabled={!PLCIsConnected} />
         </CardActions>
       </Card>
     </div>

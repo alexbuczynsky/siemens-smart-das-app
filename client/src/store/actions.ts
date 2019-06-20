@@ -92,6 +92,11 @@ export const Breakers = {
     dispatch(Msg(BreakerActions.SetPLCConnectionStatus, {
       isConnected,
     }))
+  },
+  setSwitchType: (switchType: SmartDAS.Models.SiteSwitchType) => {
+    dispatch(Msg(BreakerActions.SetSwitchType, {
+      switchType
+    }))
   }
 }
 

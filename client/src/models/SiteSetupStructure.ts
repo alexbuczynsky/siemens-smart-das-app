@@ -12,9 +12,7 @@ export class SiteSetupStructure implements SmartDAS.Models.SiteSetupStructure {
 
   public static ConvertToBreakerSetupObjectArray(config: SmartDAS.Models.SiteSetupStructure) {
 
-    const breakers = new Array(NUMBER_OF_SUPPORTED_BREAKERS).map((x, ii) => {
-      return x = new BreakerSetupObject(ii);
-    })
+    const breakers = new Array(NUMBER_OF_SUPPORTED_BREAKERS).fill(0).map((x, ii) => new BreakerSetupObject(ii + 1))
 
     const setupStructure = new SiteSetupStructure(config);
 
@@ -186,6 +184,11 @@ export class SiteSetupStructure implements SmartDAS.Models.SiteSetupStructure {
 
   get breakers(): BreakerSetupObject[] {
     return SiteSetupStructure.ConvertToBreakerSetupObjectArray(this);
+  }
+
+  set breakers(breakers: BreakerSetupObject[]) {
+    const newSiteSetup = BreakerSetupObject.ConvertToSiteSetupStructure(breakers, this.switchType);
+    Object.assign(this, newSiteSetup);
   }
 
   /**

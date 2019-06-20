@@ -4,6 +4,7 @@
 import { createMsg, ActionMap, ActionMapActions } from '../tools/Messages';
 import { CreateItem, RemoveItem } from '../tools/ReduxArrayHelpers';
 import { BreakerSetupObject } from '../../models';
+import { SiteSetupStructure } from '../../models/SiteSetupStructure';
 
 // -------------------------------------------------------------------------
 // DEFINE MODEL / ACTIONS / MESSAGES
@@ -19,7 +20,8 @@ export enum BreakerActions {
   SetAlarms = 'Breakers/SetAlarms',
   SetPLCConnectionStatus = 'Breakers/SetPLCConnectionStatus',
   SetPLCConnectionState = 'Breakers/SetPLCConnectionState',
-  SetBackendConnection = 'Breakers/SetBackendConnection'
+  SetBackendConnection = 'Breakers/SetBackendConnection',
+  SetSwitchType = 'SiteSetup/SetSwitchType',
 }
 
 export interface Messages {
@@ -33,6 +35,7 @@ export interface Messages {
   [BreakerActions.SetPLCConnectionStatus]: { isConnected: boolean }
   [BreakerActions.SetPLCConnectionState]: { status: SmartDAS.Models.PLCConnectionStatusPayload }
   [BreakerActions.SetBackendConnection]: { isConnected: boolean }
+  [BreakerActions.SetSwitchType]: { switchType: SmartDAS.Models.SiteSwitchType }
 }
 
 export const Msg = createMsg<Messages>();
@@ -48,6 +51,7 @@ interface BreakerState {
   PLCConnectionState: SmartDAS.Models.PLCConnectionStatusPayload,
   isPLCConnected: boolean;
   isBackendAPIConnected: boolean;
+  switchType: SmartDAS.Models.SiteSwitchType;
   List: BreakerSetupObject[];
   DAS: {
     status: SmartDAS.Models.DASStatusPayload,
@@ -63,6 +67,7 @@ const initialState: BreakerState = {
   },
   isPLCConnected: false,
   isBackendAPIConnected: false,
+  switchType: 0,
   List: [],
   DAS: {
     status: {
@@ -150,6 +155,9 @@ export const BreakerReducer = (state = initialState, action: Actions) => {
       break;
     case BreakerActions.SetBackendConnection:
       state.isBackendAPIConnected = action.payload.isConnected;
+      break;
+    case BreakerActions.SetSwitchType:
+      state.switchType = action.payload.switchType;
       break;
 
     // // HANDLE FETCHING OF ALL BreakerS

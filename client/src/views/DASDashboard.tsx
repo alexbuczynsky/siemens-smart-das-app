@@ -14,6 +14,7 @@ import { ConfiguredBreakersCard } from '../components/ConfiguredBreakers/Card';
 import { useStore, useInterval } from '../hooks';
 import Store, { StoreActions } from '../store';
 import { ToolsCard } from '../components/ToolsCard';
+import { SiteSetupStructure } from '../models/SiteSetupStructure';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -46,9 +47,12 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
 
   useEffect(() => {
     SmartDASClientService
-      .getBreakerConfig()
+      .getSiteSetupStructure()
       .then(config => {
-        StoreActions.Breakers.updateAll(config.map((x, ii) => new BreakerSetupObject(ii + 1, x)))
+        const setupStructure = new SiteSetupStructure(config);
+
+        StoreActions.Breakers.updateAll(setupStructure.breakers);
+        StoreActions.Breakers.setSwitchType(setupStructure.switchType);
       })
       .catch(err => console.error(err))
   }, [PLCIsConnected])
