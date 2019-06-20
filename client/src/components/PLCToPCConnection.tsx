@@ -53,7 +53,7 @@ const useStyles = makeStyles(theme => {
       display: 'flex'
     },
     ConnectionLink: {
-      strokeDasharray: "15% 5%",
+      strokeDasharray: '15 5',
       strokeWidth: "5%",
     },
     LinkIsDisconnected: {
@@ -61,11 +61,12 @@ const useStyles = makeStyles(theme => {
     },
     LinkIsActive: {
       stroke: theme.palette.success.dark,
-      animation: 'dash 5s linear infinite'
+      animation: 'dash 10s ease-in-out infinite',
+      animationDirection: 'alternate',
     },
     '@keyframes dash': {
       "from": {
-        strokeDashoffset: '10',
+        strokeDashoffset: '20',
       },
       "to": {
         strokeDashoffset: '0',
@@ -89,9 +90,14 @@ const ConnectionLink: React.FC<{ connected?: boolean }> = props => {
     [classes.LinkIsDisconnected]: !props.connected,
   });
 
+  const bottomStyle: React.CSSProperties = {
+    animationDirection: 'alternate-reverse',
+  }
+
   return (
     <svg className={classes.ConnectionLinkContainer} viewBox={'0 0 100 100'} >
-      <line className={connectionLineClassName} x1="0" y1="50%" x2="100%" y2="50%" />
+      <line className={connectionLineClassName} x1="0" y1="45%" x2="100%" y2="45%" />
+      <line className={connectionLineClassName} style={bottomStyle} x1="0" y1="55%" x2="100%" y2="55%" />
     </svg>
   );
 }
