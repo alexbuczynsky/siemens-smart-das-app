@@ -15,19 +15,19 @@ namespace BreakerConfigAPI.Controllers {
   public class UpdatePLCIPController : ControllerBase {
 
     // TODO: add readHelper after @matthew.villavaso updates the PLC comm library
-    // private static readDASCommandsClass readHelper = new readDASCommandsClass ();
+    private static readPLCIPClass readHelper = new readPLCIPClass ();
     private static writePLCIPClass writeHelper = new writePLCIPClass ();
 
-    // // GET api/plc/ip
-    // [HttpGet]
-    // public ActionResult<ipConfigStructure> Get () {
-    //   var ip = PLC_COM.config.IP;
-    //   try {
-    //     return readHelper.dasCommands (ip);
-    //   } catch (Exception e) {
-    //     return StatusCode (500, e);
-    //   }
-    // }
+    // GET api/plc/network-configuration
+    [HttpGet]
+    public ActionResult<ipConfigStructure> Get () {
+      var ip = PLC_COM.config.IP;
+      try {
+        return readHelper.ipConfig (ip);
+      } catch (Exception e) {
+        return StatusCode (500, e);
+      }
+    }
 
     [HttpPut]
     public ActionResult<ipConfigStructure> Put ([FromBody] ipConfigStructure newConfig) {
