@@ -169,6 +169,13 @@ declare namespace SmartDAS.Models {
   export interface PLCConnectionStatusPayload<T = SNAP7.ErrorCode | SNAP7.SuccessCode> {
     code: T;
     message: SNAP7.ErrorText[T];
+    /**
+     * Number of attempts
+     *
+     * @type {number}
+     * @memberof PLCConnectionStatusPayload
+     */
+    attempts: number;
   }
 
 
