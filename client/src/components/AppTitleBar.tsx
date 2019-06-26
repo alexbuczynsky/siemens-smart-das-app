@@ -3,44 +3,51 @@
 // -------------------------------------------------------------------------
 
 // Import React
-import React from 'react';
+import React from "react";
 // Material UI Imports
-import { makeStyles } from '@smartgear/edison';
-import Typography from '@material-ui/core/Typography';
-import { AppBar, Toolbar } from '@material-ui/core';
+import { makeStyles, EdisonThemeNames } from "@smartgear/edison";
+import Typography from "@material-ui/core/Typography";
+import { AppBar, Toolbar, IconButton } from "@material-ui/core";
 
-import SiemensLogo from '../assets/images/siemens-logo/sie-logo-layer-claim-petrol-rgb.svg';
+import LightBulbIcon from "@material-ui/icons/Brightness6";
+
+import SiemensLogo from "../assets/images/siemens-logo/sie-logo-petrol-rgb.svg";
 
 // -------------------------------------------------------------------------
 // STYLES
 // -------------------------------------------------------------------------
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(theme => ({
   root: {
-    display: 'flex',
-    marginBottom: theme.spacing(3),
+    display: "flex",
+    marginBottom: theme.spacing(3)
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
     width: `calc(100%)`,
-    transition: theme.transitions.create(['width', 'margin'], {
+    transition: theme.transitions.create(["width", "margin"], {
       easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
+      duration: theme.transitions.duration.leavingScreen
     }),
-    ...theme.mixins.appbar,
+    ...theme.mixins.appbar
   },
   brandLogo: {
-    width: 'auto',
-    height: theme.spacing(7),
-    marginRight: theme.spacing(2),
+    width: "auto",
+    height: theme.spacing(2),
+    marginRight: theme.spacing(2)
   },
+  title: {
+    flexGrow: 1
+  }
 }));
 
 // -------------------------------------------------------------------------
 // OPTIONS
 // -------------------------------------------------------------------------
 
-export type AppTitleBarProps = {};
+export type AppTitleBarProps = {
+  onChangeTheme?: () => void;
+};
 
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
@@ -48,6 +55,10 @@ export type AppTitleBarProps = {};
 
 export const AppTitleBar: React.FC<AppTitleBarProps> = props => {
   const classes = useStyles();
+
+  const handleChangeThemeName = () => {
+    props.onChangeTheme && props.onChangeTheme();
+  };
   return (
     <div className={classes.root}>
       <AppBar className={classes.appBar} position="static">
@@ -55,11 +66,14 @@ export const AppTitleBar: React.FC<AppTitleBarProps> = props => {
           <img
             className={classes.brandLogo}
             src={SiemensLogo}
-            alt='SiemensLogo'
+            alt="SiemensLogo"
           />
-          <Typography variant="h6" color="inherit">
+          <Typography className={classes.title} variant="h6" color="inherit">
             Smart DAS
           </Typography>
+          <IconButton onClick={handleChangeThemeName}>
+            <LightBulbIcon />
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
