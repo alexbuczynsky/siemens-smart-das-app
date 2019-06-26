@@ -5,12 +5,12 @@ import axiosRetry from "axios-retry";
 
 export const SmartDASClientService = new SmartDASClient(36666);
 
-axiosRetry(SmartDASClientService.client, {
-  retries: 3,
-  retryDelay: retryCount => {
-    return 0;
-  }
-});
+// axiosRetry(SmartDASClientService.client, {
+//   retries: 3,
+//   retryDelay: retryCount => {
+//     return 0;
+//   }
+// });
 
 SmartDASClientService.client.interceptors.response.use(
   response => {
