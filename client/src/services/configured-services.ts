@@ -1,8 +1,16 @@
 import { SmartDASClient } from "./SmartDASClient/API";
 import Store, { StoreActions } from "../store";
 import { AxiosError } from "axios";
+import axiosRetry from "axios-retry";
 
 export const SmartDASClientService = new SmartDASClient(36666);
+
+axiosRetry(SmartDASClientService.client, {
+  retries: 3,
+  retryDelay: retryCount => {
+    return 0;
+  }
+});
 
 SmartDASClientService.client.interceptors.response.use(
   response => {
@@ -17,27 +25,31 @@ SmartDASClientService.client.interceptors.response.use(
       if (error.response && error.response.status === 500) {
         const errorBody = error.response.data as SmartDAS.Models.Error;
 
-        const returnError = new Error(`Server Error! Message:${errorBody.Message}\nSource: ${errorBody.Source}`);
+        const returnError = new Error(
+          `Server Error! Message:${errorBody.Message}\nSource: ${
+            errorBody.Source
+          }`
+        );
 
         if (isPLCConnected === true) {
           StoreActions.Notifications.publishError({
             message: errorBody.Message,
-            title: 'Internal Server Error',
-          })
+            title: "Internal Server Error"
+          });
         }
 
-        return Promise.reject(returnError)
+        return Promise.reject(returnError);
       }
     }
 
     const isBackendConnected = Store.getState().breakers.isBackendAPIConnected;
 
-    if (error.message.includes('Network Error')) {
+    if (error.message.includes("Network Error")) {
       if (isBackendConnected) {
         StoreActions.Notifications.publishError({
           message: error.message,
-          title: 'Gateway offline',
-        })
+          title: "Gateway offline"
+        });
         StoreActions.setBackendConnectionStatus(false);
         StoreActions.Breakers.setPLCConnectionStatus(false);
       }
@@ -47,11 +59,10 @@ SmartDASClientService.client.interceptors.response.use(
     if (isPLCConnected === true) {
       StoreActions.Notifications.publishError({
         message: error.message,
-        title: 'Communication Error',
-      })
+        title: "Communication Error"
+      });
     }
-
 
     return Promise.reject(error);
   }
-)
+);
