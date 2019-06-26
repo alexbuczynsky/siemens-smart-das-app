@@ -3,16 +3,27 @@
 // -------------------------------------------------------------------------
 
 // Import React
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 // Material UI Imports
-import { makeStyles } from '@smartgear/edison';
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, FormLabel, RadioGroup, FormControlLabel, Radio } from '@material-ui/core';
-import { AsyncSaveButton } from './AsyncSaveButton';
-import { useStore } from '../hooks';
-import { SmartDASClientService } from '../services/configured-services';
-import { StoreActions } from '../store';
-import { BreakerSetupObject } from '../models';
-import { ButtonProps } from '@material-ui/core/Button';
+import { makeStyles } from "@smartgear/edison";
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogContentText,
+  DialogActions,
+  FormLabel,
+  RadioGroup,
+  FormControlLabel,
+  Radio
+} from "@material-ui/core";
+import { AsyncSaveButton } from "./AsyncSaveButton";
+import { useStore } from "../hooks";
+import { SmartDASClientService } from "../services/configured-services";
+import { StoreActions } from "../store";
+import { BreakerSetupObject } from "../models";
+import { ButtonProps } from "@material-ui/core/Button";
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -20,7 +31,7 @@ import { ButtonProps } from '@material-ui/core/Button';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    maxWidth: '100%'
+    maxWidth: "100%"
   }
 }));
 
@@ -28,13 +39,15 @@ const useStyles = makeStyles(theme => ({
 // OPTIONS
 // -------------------------------------------------------------------------
 
-export interface ChangeSwitchTypeButtonProps extends ButtonProps { };
+export interface ChangeSwitchTypeButtonProps extends ButtonProps {}
 
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
 // -------------------------------------------------------------------------
 
-export const ChangeSwitchTypeButton: React.FC<ChangeSwitchTypeButtonProps> = props => {
+export const ChangeSwitchTypeButton: React.FC<
+  ChangeSwitchTypeButtonProps
+> = props => {
   const classes = useStyles();
 
   const breakers = useStore(state => state.breakers.List);
@@ -42,13 +55,11 @@ export const ChangeSwitchTypeButton: React.FC<ChangeSwitchTypeButtonProps> = pro
 
   const [open, setOpen] = useState(false);
 
-
   const [switchType, setSwitchType] = useState(StoreSiteSwitchType);
 
-
   useEffect(() => {
-    setSwitchType(StoreSiteSwitchType)
-  }, [StoreSiteSwitchType])
+    setSwitchType(StoreSiteSwitchType);
+  }, [StoreSiteSwitchType]);
 
   function handleClickOpen() {
     setOpen(true);
@@ -64,54 +75,61 @@ export const ChangeSwitchTypeButton: React.FC<ChangeSwitchTypeButtonProps> = pro
 
   async function handleSave() {
     try {
-      const siteSetupStructure = BreakerSetupObject.ConvertToSiteSetupStructure(breakers, switchType);
-      const payload = await SmartDASClientService.setSiteSetupStructure(siteSetupStructure);
+      const siteSetupStructure = BreakerSetupObject.ConvertToSiteSetupStructure(
+        breakers,
+        switchType
+      );
+      const payload = await SmartDASClientService.setSiteSetupStructure(
+        siteSetupStructure
+      );
 
       StoreActions.Breakers.setSwitchType(payload.switchType);
-
     } catch (err) {
-
       StoreActions.Notifications.publishError({
         title: `Switch Type Failed updating`,
-        message: err.message,
-      })
+        message: err.message
+      });
 
       return {
         isSuccess: false
-      }
+      };
     }
 
     return {
       isSuccess: true
-    }
+    };
   }
 
   return (
     <div>
-      <Button {...props} variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button
+        {...props}
+        variant="outlined"
+        color="primary"
+        onClick={handleClickOpen}
+      >
         Change Switch Type
       </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="form-dialog-title"
+      >
         <DialogTitle id="form-dialog-title">Change Switch Type</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Select the switch type below:
-          </DialogContentText>
+          <DialogContentText>Select the switch type below:</DialogContentText>
           <FormLabel component="legend">Switch Type</FormLabel>
-          <RadioGroup
-            value={String(switchType)}
-            onChange={handleChange}
-          >
+          <RadioGroup value={String(switchType)} onChange={handleChange}>
             <FormControlLabel
               value="0"
               control={<Radio color="primary" />}
-              label="Toggle"
+              label="Key Switch"
               labelPlacement="start"
             />
             <FormControlLabel
               value="1"
               control={<Radio color="primary" />}
-              label="Push"
+              label="Push Button"
               labelPlacement="start"
             />
           </RadioGroup>
@@ -124,5 +142,5 @@ export const ChangeSwitchTypeButton: React.FC<ChangeSwitchTypeButtonProps> = pro
         </DialogActions>
       </Dialog>
     </div>
-  )
+  );
 };
