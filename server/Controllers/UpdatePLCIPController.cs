@@ -37,7 +37,7 @@ namespace BreakerConfigAPI.Controllers {
         writeHelper.writeipConfigCommand (ip, newConfig);
         PLC_COM.config.IP = $"{newConfig.newIP1}.{newConfig.newIP2}.{newConfig.newIP3}.{newConfig.newIP4}";
         //TODO: return the read from the config from the PLC after @matthew.villabaso updates the plc comm csharp library
-        return newConfig;
+        return readHelper.ipConfig (ip);
       } catch (Exception e) {
         return StatusCode (500, e);
       }
