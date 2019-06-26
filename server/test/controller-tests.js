@@ -5,6 +5,7 @@ const client = Axios.create({
   baseURL: 'http://localhost:36666/api/',
   validateStatus: false,
   timeout: 3000,
+  proxy: false,
 })
 
 async function asyncFunc(func){
