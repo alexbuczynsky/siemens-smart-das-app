@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## V0.2.1
+- **Server**:
+  - recursive retry of plc connection status (up to 10 attempts)
+  - upgraded smartDAS assembly reference
+- **Client**:
+  - updated type definition for PLCConnectionStatusPayload
+
 ## V0.2.0
 - version bump to v0.2.0 
 - **Server**:
