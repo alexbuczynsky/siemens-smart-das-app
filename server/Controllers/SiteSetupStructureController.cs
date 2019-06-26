@@ -14,21 +14,33 @@ namespace BreakerConfigAPI.Controllers {
   [ApiController]
   public class SiteSetupStructure : ControllerBase {
 
+    public static getConfigClass readConfig = new getConfigClass ();
+    public static writeConfigClass saveConfig = new writeConfigClass ();
+
     // GET api/site-setup-structure
     [HttpGet]
     public ActionResult<siteSetupStructure> Get () {
-      // return DB.breakerConfigManager.mapToSetupStructure();
+
+      var ip = PLC_COM.config.IP;
       try {
-        PLC_COM.readConfigData ();
+        var structure = readConfig.readConfigData (ip);
+        return structure;
       } catch (Exception e) {
         return StatusCode (500, e);
       }
-      return DB.breakerConfigManager.getSetupStructure ();
     }
 
     [HttpPut]
     public ActionResult<siteSetupStructure> Put ([FromBody] siteSetupStructure newSetupStructure) {
-      return PLC_COM.saveConfigData (newSetupStructure);
+      var ip = PLC_COM.config.IP;
+      saveConfig.writeConfig (ip, newSetupStructure);
+
+      try {
+        var structure = readConfig.readConfigData (ip);
+        return structure;
+      } catch (Exception e) {
+        return StatusCode (500, e);
+      }
     }
   }
 }
