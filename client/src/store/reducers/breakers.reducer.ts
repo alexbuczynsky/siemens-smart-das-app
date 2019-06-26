@@ -64,6 +64,7 @@ const initialState: BreakerState = {
   PLCConnectionState: {
     code: 9,
     message: "CLI : Client not connected",
+    attempts: 0,
   },
   isPLCConnected: false,
   isBackendAPIConnected: false,
