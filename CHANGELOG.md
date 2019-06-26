@@ -1,6 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## V0.2.2
+- **Server**:
+  - upgraded smartDAS assembly reference
+  - uses the already existing socket connection to the PLC from
+    the smartDAS library to determine the connection status. This
+    reduces the number of sockets connected to the PLC at one point.
+
 ## V0.2.1
 - **Server**:
   - recursive retry of plc connection status (up to 10 attempts)
