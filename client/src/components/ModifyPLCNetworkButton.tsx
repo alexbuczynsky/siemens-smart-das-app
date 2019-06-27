@@ -140,7 +140,7 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
   return (
     <div>
       <Button disabled={!PLCIsConnected} variant="outlined" color="primary" onClick={handleClickOpen}>
-        Change Network Settings
+        Change PLC Network Settings
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Modify PLC Network Settings</DialogTitle>
