@@ -1,6 +1,17 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## V0.3.0
+- **Server**:
+  - handles disconnecting and reconnecting to new PLC ip
+  - upgraded smartDAS assembly reference
+  - removed extra helper for reading siteSetupStructure from controllers.
+- **Client**:
+  - added dark mode toggle
+  - made all requests to the server synchronous. e.g. each request
+    will follow a chain of requests. If any fails, the entire chain
+    will fail.
+
 ## V0.2.2
 - **Server**:
   - upgraded smartDAS assembly reference
