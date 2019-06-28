@@ -1,6 +1,19 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## V0.4.0
+- **Server**:
+  - upgraded smartDAS assembly reference
+  - one service handles all plc communications
+  - no errors are thrown anywhere in demo mode
+  - DemoMode removes all smartDAS retries
+  - all controllers use the central plc service
+  - removed references to BreakerConfigAPI.Database (deprecated)
+- **Client**:
+  - only fetches site setup on plc status change or when action
+    alters the state.
+  - improved performance and stability of wiring IO tool. 
+
 ## V0.3.0
 - **Server**:
   - handles disconnecting and reconnecting to new PLC ip
