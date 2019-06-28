@@ -53,17 +53,17 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
     CONNECTION_TEST_INTERVAL
   );
 
-  // useEffect(() => {
-  //   SmartDASClientService
-  //     .getSiteSetupStructure()
-  //     .then(config => {
-  //       const setupStructure = new SiteSetupStructure(config);
+  useEffect(() => {
+    SmartDASClientService
+      .getSiteSetupStructure()
+      .then(config => {
+        const setupStructure = new SiteSetupStructure(config);
 
-  //       StoreActions.Breakers.updateAll(setupStructure.breakers);
-  //       StoreActions.Breakers.setSwitchType(setupStructure.switchType);
-  //     })
-  //     .catch(err => console.error(err))
-  // }, [PLCIsConnected])
+        StoreActions.Breakers.updateAll(setupStructure.breakers);
+        StoreActions.Breakers.setSwitchType(setupStructure.switchType);
+      })
+      .catch(err => console.error(err))
+  }, [PLCIsConnected])
 
   // CHECK PLC CONNECTION STATUS
   useInterval(() => {
@@ -82,13 +82,6 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
 
   useInterval(() => {
     StoreActions.TestPLCConnection()
-      .then(() => SmartDASClientService.getSiteSetupStructure())
-      .then(config => {
-        const setupStructure = new SiteSetupStructure(config);
-
-        StoreActions.Breakers.updateAll(setupStructure.breakers);
-        StoreActions.Breakers.setSwitchType(setupStructure.switchType);
-      })
       .then(() => SmartDASClientService.getDASStatus())
       .then(status => {
         StoreActions.Breakers.updateDASStatus(status);
