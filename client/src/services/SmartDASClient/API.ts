@@ -60,6 +60,11 @@ export class SmartDASClient {
     return response.data;
   }
 
+  async setBreakerConfig(breakers: BreakerSetupObject[], switchType: SmartDAS.Models.SiteSwitchType) {
+
+    return this.setSiteSetupStructure(BreakerSetupObject.ConvertToSiteSetupStructure(breakers, switchType))
+  }
+
   async getBreakerConfigByIndex(index: number) {
     const response = await this.client.get<SmartDAS.Models.BreakerSetupObject>(`breaker-config/${index}`)
 

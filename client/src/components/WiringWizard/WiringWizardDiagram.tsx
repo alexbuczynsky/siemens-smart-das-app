@@ -15,12 +15,13 @@ import {
   DefaultPortModel,
   DiagramProps,
 } from "storm-react-diagrams";
-import { useStore} from '../../hooks';
+import { useStore } from '../../hooks';
 import { Divider } from '@material-ui/core';
 import { SmartDASClientService } from '../../services/configured-services';
 import Store, { StoreActions } from '../../store';
 import { BreakerSetupObject } from '../../models';
 import { AsyncSaveButton } from '../AsyncSaveButton';
+import { SiteSetupStructure } from '../../models/SiteSetupStructure';
 
 require("storm-react-diagrams/dist/style.min.css");
 
@@ -197,6 +198,7 @@ export const WiringWizardDiagram: React.FC<WiringWizardDiagramProps> = props => 
   const theme = useTheme();
   const classes = useStyles();
   const breakers = useStore(state => state.breakers.List);
+  const switchType = useStore(state => state.breakers.switchType);
   //1) setup the diagram engine
   const engine = new DiagramEngine();
   engine.installDefaultFactories();
@@ -215,24 +217,23 @@ export const WiringWizardDiagram: React.FC<WiringWizardDiagramProps> = props => 
       props.onConfigSave(breakerWiringMap);
     }
 
-    const breakerUpdateRequests = [] as Array<Promise<BreakerSetupObject>>;
+    const refBreakers = breakers;
+
     breakerWiringMap.forEach(config => {
-      const breaker = breakers.find(x => x.id === config.breakerId);
+      const breaker = refBreakers.find(x => x.id === config.breakerId);
       if (breaker) {
         breaker.associatedInput = config.assosciatedInput;
         breaker.associatedOutput = config.assosciatedOutput;
-
-
-        breakerUpdateRequests.push(
-          SmartDASClientService.updateBreakerConfigByIndex(breaker.id, breaker)
-        )
       }
     })
 
     try {
-      const payloads = await Promise.all(breakerUpdateRequests);
-      payloads.forEach(payload => {
-        StoreActions.Breakers.updateOne(payload);
+      const siteSetup = await SmartDASClientService.setBreakerConfig(refBreakers, switchType);
+
+      const breakers = SiteSetupStructure.ConvertToBreakerSetupObjectArray(new SiteSetupStructure(siteSetup));
+
+      breakers.forEach(breaker => {
+        StoreActions.Breakers.updateOne(breaker);
       });
 
     } catch (err) {
