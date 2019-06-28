@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BreakerConfigAPI.Communications.PLC;
+
 using BreakerConfigAPI.Database;
 using BreakerConfigAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
+using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -14,16 +15,11 @@ namespace BreakerConfigAPI.Controllers {
   [ApiController]
   public class UpdatePLCIPController : ControllerBase {
 
-    // TODO: add readHelper after @matthew.villavaso updates the PLC comm library
-    private static readPLCIPClass readHelper = new readPLCIPClass ();
-    private static writePLCIPClass writeHelper = new writePLCIPClass ();
-
     // GET api/plc/network-configuration
     [HttpGet]
     public ActionResult<ipConfigStructure> Get () {
-      var ip = PLC_COM.config.IP;
       try {
-        return readHelper.ipConfig (ip);
+        return services.smartDAS.getPLCNetwork();
       } catch (Exception e) {
         return StatusCode (500, e);
       }
@@ -31,15 +27,12 @@ namespace BreakerConfigAPI.Controllers {
 
     [HttpPut]
     public ActionResult<ipConfigStructure> Put ([FromBody] ipConfigStructure newConfig) {
-      var ip = PLC_COM.config.IP;
 
       try {
-        writeHelper.writeipConfigCommand (ip, newConfig);
-        ip = $"{newConfig.newIP1}.{newConfig.newIP2}.{newConfig.newIP3}.{newConfig.newIP4}";
+        services.smartDAS.setPLCNetwork(newConfig);
         constants.Client.Disconnect();
-        constants.checkConnection(ip);
-        PLC_COM.config.IP = ip;
-        return readHelper.ipConfig (ip);
+        constants.checkConnection(services.smartDAS.State.targetPLCConfig.IP);
+        return services.smartDAS.getPLCNetwork();
       } catch (Exception e) {
         return StatusCode (500, e);
       }

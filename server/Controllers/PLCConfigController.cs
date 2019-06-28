@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BreakerConfigAPI.Communications.PLC;
+
 using BreakerConfigAPI.Database;
 using BreakerConfigAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
+using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -17,12 +18,12 @@ namespace BreakerConfigAPI.Controllers {
     // GET api/plc-config
     [HttpGet]
     public ActionResult<PLCConfiguration> Get () {
-      return PLC_COM.config;
+      return services.smartDAS.State.targetPLCConfig;
     }
 
     [HttpPut]
     public ActionResult<PLCConfiguration> Put ([FromBody] PLCConfiguration newConfig) {
-      return PLC_COM.config = newConfig;
+      return services.smartDAS.State.targetPLCConfig = newConfig;
     }
   }
 }

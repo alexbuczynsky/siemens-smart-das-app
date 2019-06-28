@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BreakerConfigAPI.Communications.PLC;
+
 using BreakerConfigAPI.Database;
 using BreakerConfigAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
+using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -20,9 +21,8 @@ namespace BreakerConfigAPI.Controllers {
     // GET api/das/commands
     [HttpGet]
     public ActionResult<dasCommandsStructure> Get () {
-      var ip = PLC_COM.config.IP;
       try {
-        return readHelper.dasCommands (ip);
+        return services.smartDAS.getDASCommands();
       } catch (Exception e) {
         return StatusCode (500, e);
       }
@@ -30,11 +30,10 @@ namespace BreakerConfigAPI.Controllers {
 
     [HttpPut]
     public ActionResult<dasCommandsStructure> Put ([FromBody] dasCommandsStructure newConfig) {
-      var ip = PLC_COM.config.IP;
 
       try {
-        writeHelper.writeDASCommands (ip, newConfig);
-        return readHelper.dasCommands (ip);
+        services.smartDAS.setDASCommands(newConfig);
+        return services.smartDAS.getDASCommands();
       } catch (Exception e) {
         return StatusCode (500, e);
       }

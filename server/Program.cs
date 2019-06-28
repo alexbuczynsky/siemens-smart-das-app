@@ -8,12 +8,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
+using BreakerConfigAPI.Services;
+using smartDASNamespace;
+
 namespace TodoApi
 {
     public class Program
     {
         public static void Main(string[] args)
         {
+            if(SmartDASService.DemoMode == true){
+                constants.maxRetries = 0;
+            }
             CreateWebHostBuilder(args).Build().Run();
         }
 

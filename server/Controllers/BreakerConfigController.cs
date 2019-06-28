@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BreakerConfigAPI.Communications.PLC;
 using BreakerConfigAPI.Database;
 using BreakerConfigAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
+using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -18,11 +18,10 @@ namespace BreakerConfigAPI.Controllers {
         [HttpGet]
         public ActionResult<BreakerSetupObject[]> Get () {
             try {
-                PLC_COM.readConfigData ();
+                return services.smartDAS.getBreakerConfigurations();
             } catch (Exception e) {
                 return StatusCode (500, e);
             }
-            return DB.breakerConfigManager.configurations;
 
         }
 
@@ -31,13 +30,13 @@ namespace BreakerConfigAPI.Controllers {
         public ActionResult<BreakerSetupObject> Get (int id) {
             id = id - 1;
 
-            if (id >= 0 && id < DB.breakerConfigManager.configurations.Length) {
+            if (id >= 0 && id < 9) {
                 try {
-                    PLC_COM.readConfigData ();
+                    var breakers = services.smartDAS.getBreakerConfigurations();
+                    return breakers[id];
                 } catch (Exception e) {
                     return StatusCode (500, e);
                 }
-                return DB.breakerConfigManager.configurations[id];
             } else {
                 return NotFound ();
             }
@@ -49,14 +48,14 @@ namespace BreakerConfigAPI.Controllers {
         public ActionResult<BreakerSetupObject> Put (int id, [FromBody] BreakerSetupObject newConfiguration) {
             id = id - 1;
             try {
-                if (id >= 0 && id < DB.breakerConfigManager.configurations.Length) {
-                    PLC_COM.readConfigData ();
+                if (id >= 0 && id < 9) {
+                    var breakers = services.smartDAS.getBreakerConfigurations();
 
-                    DB.breakerConfigManager.configurations[id] = newConfiguration;
+                    breakers[id] = newConfiguration;
 
-                    PLC_COM.saveConfigData (DB.breakerConfigManager.getSetupStructure ());
+                    breakers = services.smartDAS.setBreakerConfigurations(breakers);
 
-                    return DB.breakerConfigManager.configurations[id];
+                    return breakers[id];
                 } else {
                     return NotFound ();
                 }

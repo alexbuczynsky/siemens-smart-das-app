@@ -2,12 +2,13 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using BreakerConfigAPI.Communications.PLC;
+
 using BreakerConfigAPI.Database;
 using BreakerConfigAPI.Models;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
 using Profinet_Master;
+using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -22,7 +23,7 @@ namespace BreakerConfigAPI.Controllers {
     }
 
     private int checkConnection(){
-      var ip = PLC_COM.config.IP;
+      var ip = services.smartDAS.IP;
 
       return constants.checkConnection(ip);
     }
@@ -47,7 +48,7 @@ namespace BreakerConfigAPI.Controllers {
     [HttpGet]
     public ActionResult<ConnectionStatus> Get () {
 
-      if(PLC_COM.DemoMode){
+      if(SmartDASService.DemoMode == true){
         return new ConnectionStatus(){
           code = 0,
           message = "OK",
