@@ -1,6 +1,11 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## V0.4.1
+- **Server**
+  - upgraded smartDAS assembly reference with error handling on potential
+    tcp send buffer error
+
 ## V0.4.0
 - **Server**:
   - upgraded smartDAS assembly reference
