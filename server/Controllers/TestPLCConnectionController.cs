@@ -17,6 +17,8 @@ namespace BreakerConfigAPI.Controllers {
     [HttpGet]
     public ActionResult<ConnectionStatus> Get () {
 
+      var service = new SmartDASService();
+
       if (SmartDASService.DemoMode == true) {
         return new ConnectionStatus () {
         code = 0,
@@ -25,7 +27,10 @@ namespace BreakerConfigAPI.Controllers {
         };
       }
 
-      return services.smartDAS.getConnectionStatus();
+      var connectionStatus = service.getConnectionStatus();
+      service.Disconnect();
+
+      return connectionStatus;
     }
   }
 }

@@ -16,8 +16,12 @@ namespace BreakerConfigAPI.Controllers {
     // GET api/plc/network-configuration
     [HttpGet]
     public ActionResult<plcNetworkConfig> Get () {
+      var service = new SmartDASService();
       try {
-        return services.smartDAS.getPLCNetwork ();
+        var networkConfig = service.getPLCNetwork ();
+
+        service.Disconnect();
+        return networkConfig;
       } catch (Exception e) {
         return StatusCode (500, e);
       }
@@ -25,13 +29,17 @@ namespace BreakerConfigAPI.Controllers {
 
     [HttpPut]
     public ActionResult<plcNetworkConfig> Put ([FromBody] plcNetworkConfig newConfig) {
-
+      var service = new SmartDASService();
       try {
-        services.smartDAS.setPLCNetwork (newConfig);
-        services.smartDAS.Disconnect ();
-        services.smartDAS.Connect();
-        return services.smartDAS.getPLCNetwork ();
+        service.setPLCNetwork (newConfig);
+        service.Disconnect ();
+        service.Connect();
+
+        var networkConig = service.getPLCNetwork ();
+        service.Disconnect();
+        return networkConig;
       } catch (Exception e) {
+        service.Disconnect();
         return StatusCode (500, e);
       }
     }

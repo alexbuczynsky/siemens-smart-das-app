@@ -18,8 +18,10 @@ namespace BreakerConfigAPI.Controllers {
     // GET api/site-setup-structure
     [HttpGet]
     public ActionResult<siteSetupStructure> Get () {
+      var service = new SmartDASService();
       try {
-        var structure = services.smartDAS.getConfigData();
+        var structure = service.getConfigData();
+        service.Disconnect();
         return structure;
       } catch (Exception e) {
         return StatusCode (500, e);
@@ -28,9 +30,11 @@ namespace BreakerConfigAPI.Controllers {
 
     [HttpPut]
     public ActionResult<siteSetupStructure> Put ([FromBody] siteSetupStructure newSetupStructure) {
+      var service = new SmartDASService();
       try {
-        services.smartDAS.setConfigData(newSetupStructure);
-        var structure = services.smartDAS.getConfigData();
+        service.setConfigData(newSetupStructure);
+        var structure = service.getConfigData();
+        service.Disconnect();
         return structure;
       } catch (Exception e) {
         return StatusCode (500, e);
