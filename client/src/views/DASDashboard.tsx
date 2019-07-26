@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
 export type DASDashboardProps = {};
 
 const STATUS_FETCH_INTERVAL = 2000;
-const CONNECTION_TEST_INTERVAL = 3000;
+const CONNECTION_TEST_INTERVAL = 5000;
 
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
