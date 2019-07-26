@@ -22,7 +22,10 @@ All notable changes to this project will be documented in this file.
     error.
   - The initial state of commAlarms is now inactive (was active before).
   - Increased the PLC connection test interval from 3000 ms to 5000 ms.
-  - Fixed bug where breaker config dialog would disappear
+  - Breaker Config Dialog
+    - SlaveId is now limitied to between 0 and 255
+    - Assosicated input/ouput is limited between 0 and 9
+    - Fixed bug where breaker config dialog would disappear
 
 ## V0.4.1
 - **Server**
