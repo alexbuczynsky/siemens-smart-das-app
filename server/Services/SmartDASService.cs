@@ -26,7 +26,7 @@ namespace BreakerConfigAPI.Services {
         /// If true, the server will not send back error messages, and will instead
         /// just send back default classes and 0 error codes.
         /// </summary>
-        public static bool DemoMode = true;
+        public static bool DemoMode = false;
 
         private SmartDASServiceState State = new SmartDASServiceState ();
 
