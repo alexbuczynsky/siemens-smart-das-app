@@ -1,6 +1,29 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## V2.0.1
+- **Server**
+  - Changed default plc IP to 192.168.127.235
+  - server uses multiple SmartDASService Instances
+  - SmartDASService implements new SmartDASClient
+  - All Controllers will establish a connection with the PLC, get data,
+    and then disconnect.
+    - This increases the response time, but ensures no buffer corruption 
+      due to async requests.
+- *Client*
+  - AppTitleBar displays version number
+  - AppTitleBar is fixed to the top and will not move while scrolling
+  - Added DAS Status Chip to Breaker List to make it easier to see
+    breakers DAS state.
+  - Added Comm Alarm Chip to Breaker List to make it easier to
+    visually see when a breaker has a comm failure.
+  - SmartDAS API, on handling request errors will now display both
+    the snap7 error code and snap7 error message on an internal server
+    error.
+  - The initial state of commAlarms is now inactive (was active before).
+  - Increased the PLC connection test interval from 3000 ms to 5000 ms.
+  - Fixed bug where breaker config dialog would disappear
+
 ## V0.4.1
 - **Server**
   - upgraded smartDAS assembly reference with error handling on potential
