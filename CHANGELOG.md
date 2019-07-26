@@ -2,6 +2,14 @@
 All notable changes to this project will be documented in this file.
 
 ## V2.0.1
+> NOTE: The version has been pushed to V2.0.1 not because of breaking changes, 
+> but to be in sync with how the shop floor / external departments are
+> referring to this program.
+> 
+> Since this software solution replaces the previous SmartDAS 1.0 project,
+> this project has been called "SmartDAS 2.0" and thus all future versions will
+> be in sync with the external version numbers. All previous versions, if release,
+> have been noted with parenthesis the version they are externally referenced as.
 - **Server**
   - Changed default plc IP to 192.168.127.235
   - server uses multiple SmartDASService Instances
@@ -10,7 +18,7 @@ All notable changes to this project will be documented in this file.
     and then disconnect.
     - This increases the response time, but ensures no buffer corruption 
       due to async requests.
-- *Client*
+- **Client**
   - AppTitleBar displays version number
   - AppTitleBar is fixed to the top and will not move while scrolling
   - Added DAS Status Chip to Breaker List to make it easier to see
@@ -27,7 +35,7 @@ All notable changes to this project will be documented in this file.
     - Assosicated input/ouput is limited between 0 and 9
     - Fixed bug where breaker config dialog would disappear
 
-## V0.4.1
+## V0.4.1 (V2.0.0)
 - **Server**
   - upgraded smartDAS assembly reference with error handling on potential
     tcp send buffer error
