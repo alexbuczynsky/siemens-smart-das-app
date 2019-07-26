@@ -65,6 +65,7 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
         setSubnet(`${networkConfig.newSubnet1}.${networkConfig.newSubnet2}.${networkConfig.newSubnet3}.${networkConfig.newSubnet4}`);
         setGateway(`${networkConfig.newGateway1}.${networkConfig.newGateway2}.${networkConfig.newGateway3}.${networkConfig.newGateway4}`);
       })
+      .catch(console.error)
   }
 
   function handleClickOpen() {
