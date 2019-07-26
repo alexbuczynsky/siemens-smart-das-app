@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-
 using BreakerConfigAPI.Models;
+using BreakerConfigAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
-using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -17,22 +15,22 @@ namespace BreakerConfigAPI.Controllers {
 
     // GET api/plc/network-configuration
     [HttpGet]
-    public ActionResult<ipConfigStructure> Get () {
+    public ActionResult<plcNetworkConfig> Get () {
       try {
-        return services.smartDAS.getPLCNetwork();
+        return services.smartDAS.getPLCNetwork ();
       } catch (Exception e) {
         return StatusCode (500, e);
       }
     }
 
     [HttpPut]
-    public ActionResult<ipConfigStructure> Put ([FromBody] ipConfigStructure newConfig) {
+    public ActionResult<plcNetworkConfig> Put ([FromBody] plcNetworkConfig newConfig) {
 
       try {
-        services.smartDAS.setPLCNetwork(newConfig);
-        constants.Client.Disconnect();
-        constants.checkConnection(services.smartDAS.State.targetPLCConfig.IP);
-        return services.smartDAS.getPLCNetwork();
+        services.smartDAS.setPLCNetwork (newConfig);
+        services.smartDAS.Disconnect ();
+        services.smartDAS.Connect();
+        return services.smartDAS.getPLCNetwork ();
       } catch (Exception e) {
         return StatusCode (500, e);
       }

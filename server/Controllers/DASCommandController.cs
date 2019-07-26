@@ -15,9 +15,6 @@ namespace BreakerConfigAPI.Controllers {
   [ApiController]
   public class DASCommandController : ControllerBase {
 
-    private static readDASCommandsClass readHelper = new readDASCommandsClass ();
-    private static writeDASCommandClass writeHelper = new writeDASCommandClass ();
-
     // GET api/das/commands
     [HttpGet]
     public ActionResult<dasCommandsStructure> Get () {
