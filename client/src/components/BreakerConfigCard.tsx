@@ -64,7 +64,7 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
 
   const [serverConfig, setServerConfig] = useState(new BreakerSetupObject(index, props.config));
 
-  const [breakerConfig, setBreakerConfig] = useState(props.config);
+  const [breakerConfig, setBreakerConfig] = useState(new BreakerSetupObject(index, props.config));
 
   const error = isValidIPAddress(ipAddress) === false;
 
