@@ -11,6 +11,7 @@ import { Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/c
 import { BreakerSetupObject } from '../../models';
 import { ConfigureBreakerButton } from './ConfigureBreakerButton';
 import { useBreakerStatuses } from '../../hooks/useBreakerStatus';
+import { DASStatusChip } from '../DASStatusChip';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -53,7 +54,7 @@ export const BreakerList: React.FC<BreakerListProps> = props => {
       <TableRow key={breaker.id}>
         <TableCell align="left">{breaker.id}</TableCell>
         <TableCell align="left">{breaker.breakerTypeAsString}</TableCell>
-        <TableCell align="left">{breakerState.isDASEnabled ? "ON" : "OFF"}</TableCell>
+        <TableCell align="left">{<DASStatusChip isEnabled={breakerState.isDASEnabled} />}</TableCell>
         <TableCell align="left">{breakerState.activateCommandState ? "ON" : "OFF"}</TableCell>
         <TableCell align="left">{breakerState.isCOMAlarmActive ? "Alarm Active" : "No Alarm"}</TableCell>
         <TableCell align="left">
