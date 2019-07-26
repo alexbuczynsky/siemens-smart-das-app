@@ -22,9 +22,11 @@ import { SiteSetupStructure } from "../models/SiteSetupStructure";
 
 const useStyles = makeStyles(theme => ({
   root: {
-    margin: "auto",
+    marginLeft: "auto",
+    marginRight: "auto",
+    marginTop: "75px",
     width: "90%",
-    maxWidth: "1920px"
+    maxWidth: "1200px"
   }
 }));
 
