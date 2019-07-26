@@ -95,15 +95,15 @@ const initialState: BreakerState = {
     },
   },
   alarms: {
-    comAlarmBreaker1: true,
-    comAlarmBreaker2: true,
-    comAlarmBreaker3: true,
-    comAlarmBreaker4: true,
-    comAlarmBreaker5: true,
-    comAlarmBreaker6: true,
-    comAlarmBreaker7: true,
-    comAlarmBreaker8: true,
-    comAlarmBreaker9: true,
+    comAlarmBreaker1: false,
+    comAlarmBreaker2: false,
+    comAlarmBreaker3: false,
+    comAlarmBreaker4: false,
+    comAlarmBreaker5: false,
+    comAlarmBreaker6: false,
+    comAlarmBreaker7: false,
+    comAlarmBreaker8: false,
+    comAlarmBreaker9: false,
   }
 };
 
