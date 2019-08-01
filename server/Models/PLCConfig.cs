@@ -9,7 +9,7 @@ namespace BreakerConfigAPI.Models {
   public class PLCConfiguration {
     private static string TEXT_FILE_NAME = "ip-plc.txt";
     private static string TEXT_FILE_PATH = Path.Combine(Directory.GetCurrentDirectory(), PLCConfiguration.TEXT_FILE_NAME);
-    private string _IP = "192.168.1.83";
+    private string _IP = "192.168.127.235";
     public string IP {
       get 
       { 

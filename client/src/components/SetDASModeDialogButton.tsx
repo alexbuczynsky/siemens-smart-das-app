@@ -25,7 +25,9 @@ import {
   ListItemSecondaryAction,
   IconButton,
   Badge,
-  Chip
+  Chip,
+  Typography,
+  Divider
 } from "@material-ui/core";
 import { AsyncSaveButton } from "./AsyncSaveButton";
 import { useStore } from "../hooks";
@@ -35,6 +37,7 @@ import { BreakerSetupObject } from "../models";
 import { ButtonProps } from "@material-ui/core/Button";
 import DeleteIcon from "@material-ui/icons/Delete";
 import { useBreakerStatuses } from "../hooks/useBreakerStatus";
+import { DASStatusChip } from "./DASStatusChip";
 
 // ---------------------------------------  ----------------------------------
 // STYLES
@@ -59,27 +62,7 @@ const useStyles = makeStyles(theme => ({
 // OPTIONS
 // -------------------------------------------------------------------------
 
-export interface SetDASModeDialogButtonProps extends ButtonProps {}
-
-// -------------------------------------------------------------------------
-// Sub Components
-// -------------------------------------------------------------------------
-
-interface DASIndicatorProps {
-  isEnabled: boolean;
-}
-
-const DASIndicatorStatus: React.FC<DASIndicatorProps> = props => {
-  const classes = useStyles();
-
-  const color = props.isEnabled ? "primary" : "default";
-  const label = props.isEnabled ? "DAS is Enabled" : "DAS is Disabled";
-  return (
-    <div className={classes.dastStatusIndicatorContainer}>
-      <Chip color={color} label={label} />
-    </div>
-  );
-};
+export interface SetDASModeDialogButtonProps extends ButtonProps { }
 
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
@@ -157,16 +140,19 @@ export const SetDASModeDialogButton: React.FC<
           activateCommands
         );
         StoreActions.Breakers.updateDASCommands(payload);
-      } catch (e) {}
+      } catch (e) { }
     };
+
+    const isCOMAlarmActive = breakerState.isCOMAlarmActive;
+    const isDASEnabled = breakerState.isDASEnabled;
 
     return (
       <ListItem key={breaker.id}>
         <ListItemText primary={`Breaker ${breaker.id}`} />
-        <DASIndicatorStatus isEnabled={breakerState.isDASEnabled} />
+        <DASStatusChip isEnabled={breakerState.isDASEnabled} />
 
-        <Button variant="contained" color="primary" onClick={handleToggle}>
-          {breakerState.isDASEnabled ? "Turn off DAS" : "Turn on DAS"}
+        <Button disabled={isCOMAlarmActive} variant="contained" color="primary" onClick={handleToggle}>
+          {isCOMAlarmActive ? "Breaker Not Connected" : isDASEnabled ? "Turn off DAS" : "Turn on DAS"}
         </Button>
       </ListItem>
     );
@@ -197,6 +183,15 @@ export const SetDASModeDialogButton: React.FC<
           <List dense className={classes.list}>
             {breakers.map(renderListItem)}
           </List>
+          <DialogContentText>
+            <Divider style={{ marginBottom: '5px' }} />
+            <Typography variant="h4">WARNING: THIS FEATURE IS NOT MEANT FOR PRODUCTION USE</Typography>
+            This tool is designed to test the DAS functionality of breakers before the SmartDAS unit
+            is deployed in a production environment. It should not be used to control breaker DAS state
+            once the switchboard / switchgear is deployed and is in operation.
+            <br />
+            Use of this software in any other context is at your own risk.
+          </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="primary">

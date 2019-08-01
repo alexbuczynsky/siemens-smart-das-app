@@ -13,14 +13,20 @@ import LightBulbIcon from "@material-ui/icons/Brightness6";
 
 import SiemensLogo from "../assets/images/siemens-logo/sie-logo-petrol-rgb.svg";
 
+import packageJson from '../../package.json';
+
 // -------------------------------------------------------------------------
 // STYLES
 // -------------------------------------------------------------------------
 
 const useStyles = makeStyles(theme => ({
   root: {
-    display: "flex",
-    marginBottom: theme.spacing(3)
+    // display: "flex",
+    width: '100%',
+    position: 'fixed',
+    top: 0,
+    marginBottom: theme.spacing(3),
+    zIndex: 100,
   },
   appBar: {
     zIndex: theme.zIndex.drawer + 1,
@@ -70,6 +76,9 @@ export const AppTitleBar: React.FC<AppTitleBarProps> = props => {
           />
           <Typography className={classes.title} variant="h6" color="inherit">
             Smart DAS
+          </Typography>
+          <Typography variant="h4" color="inherit">
+            v{packageJson.version}
           </Typography>
           <IconButton onClick={handleChangeThemeName}>
             <LightBulbIcon />

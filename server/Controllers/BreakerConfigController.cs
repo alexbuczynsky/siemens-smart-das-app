@@ -17,9 +17,14 @@ namespace BreakerConfigAPI.Controllers {
         // GET api/breaker-config
         [HttpGet]
         public ActionResult<BreakerSetupObject[]> Get () {
+            var service = new SmartDASService();
             try {
-                return services.smartDAS.getBreakerConfigurations();
+
+                var breakerConfig = service.getBreakerConfigurations();
+                service.Disconnect();
+                return breakerConfig;
             } catch (Exception e) {
+                service.Disconnect();
                 return StatusCode (500, e);
             }
 
@@ -30,14 +35,25 @@ namespace BreakerConfigAPI.Controllers {
         public ActionResult<BreakerSetupObject> Get (int id) {
             id = id - 1;
 
+            SmartDASService service;
+
+            try {
+                service = new SmartDASService();
+            } catch (Exception e) {
+                return StatusCode (500, e);
+            }
+
             if (id >= 0 && id < 9) {
                 try {
-                    var breakers = services.smartDAS.getBreakerConfigurations();
+                    var breakers = service.getBreakerConfigurations();
+                    service.Disconnect();
                     return breakers[id];
                 } catch (Exception e) {
+                    service.Disconnect();
                     return StatusCode (500, e);
                 }
             } else {
+                service.Disconnect();
                 return NotFound ();
             }
 
@@ -47,19 +63,30 @@ namespace BreakerConfigAPI.Controllers {
         [HttpPut ("{id}")]
         public ActionResult<BreakerSetupObject> Put (int id, [FromBody] BreakerSetupObject newConfiguration) {
             id = id - 1;
+
+            SmartDASService service;
+
+            try {
+                service = new SmartDASService();
+            } catch (Exception e) {
+                return StatusCode (500, e);
+            }
+
             try {
                 if (id >= 0 && id < 9) {
-                    var breakers = services.smartDAS.getBreakerConfigurations();
+                    var breakers = service.getBreakerConfigurations();
 
                     breakers[id] = newConfiguration;
 
-                    breakers = services.smartDAS.setBreakerConfigurations(breakers);
-
+                    breakers = service.setBreakerConfigurations(breakers);
+                    service.Disconnect();
                     return breakers[id];
                 } else {
+                    service.Disconnect();
                     return NotFound ();
                 }
             } catch (Exception e) {
+                service.Disconnect();
                 return StatusCode (500, e);
             }
             

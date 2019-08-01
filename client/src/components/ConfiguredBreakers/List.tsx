@@ -5,12 +5,14 @@
 // Import React
 import React from 'react';
 // Material UI Imports
-import { makeStyles } from '@smartgear/edison';
+import { makeStyles, useTheme } from '@smartgear/edison';
 import { useStore } from '../../hooks';
-import { Table, TableHead, TableRow, TableCell, TableBody } from '@material-ui/core';
+import { Table, TableHead, TableRow, TableCell, TableBody, Chip, Avatar } from '@material-ui/core';
 import { BreakerSetupObject } from '../../models';
 import { ConfigureBreakerButton } from './ConfigureBreakerButton';
 import { useBreakerStatuses } from '../../hooks/useBreakerStatus';
+import { DASStatusChip } from '../DASStatusChip';
+import WarningIcon from "@material-ui/icons/Warning"
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -33,6 +35,28 @@ export type BreakerListProps = {
   breakers: BreakerSetupObject[]
 };
 
+const CommAlarmStatus: React.FC<{ isAlarmActive: boolean }> = props => {
+  const theme = useTheme();
+
+  const chipStyle: React.CSSProperties = {};
+
+  const avatarStyle: React.CSSProperties = {
+    backgroundColor: theme.palette.background.default,
+    color: theme.palette.warning.light,
+  };
+
+  if (props.isAlarmActive) {
+    chipStyle.backgroundColor = theme.palette.warning.light;
+  }
+  return (
+    <Chip
+      avatar={props.isAlarmActive ? <Avatar style={avatarStyle}><WarningIcon /></Avatar> : undefined}
+      label={props.isAlarmActive ? "Alarm Active" : "No Alarm"}
+      style={chipStyle}
+    />
+  )
+}
+
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
 // -------------------------------------------------------------------------
@@ -53,9 +77,9 @@ export const BreakerList: React.FC<BreakerListProps> = props => {
       <TableRow key={breaker.id}>
         <TableCell align="left">{breaker.id}</TableCell>
         <TableCell align="left">{breaker.breakerTypeAsString}</TableCell>
-        <TableCell align="left">{breakerState.isDASEnabled ? "ON" : "OFF"}</TableCell>
+        <TableCell align="left">{<DASStatusChip isEnabled={breakerState.isDASEnabled} />}</TableCell>
         <TableCell align="left">{breakerState.activateCommandState ? "ON" : "OFF"}</TableCell>
-        <TableCell align="left">{breakerState.isCOMAlarmActive ? "Alarm Active" : "No Alarm"}</TableCell>
+        <TableCell align="left">{<CommAlarmStatus isAlarmActive={breakerState.isCOMAlarmActive} />}</TableCell>
         <TableCell align="left">
           <ConfigureBreakerButton breaker={breaker} />
         </TableCell>
@@ -76,8 +100,8 @@ export const BreakerList: React.FC<BreakerListProps> = props => {
             <TableCell align="left">Type</TableCell>
             <TableCell align="left">DAS State</TableCell>
             <TableCell align="left">DAS Command State</TableCell>
-            <TableCell align="left">Alarm</TableCell>
-            <TableCell align="left"></TableCell>
+            <TableCell align="left">Communication Alarm</TableCell>
+            <TableCell align="left">Edit Breaker</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>

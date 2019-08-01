@@ -19,8 +19,11 @@ namespace BreakerConfigAPI.Controllers {
     ///
     [HttpGet]
     public ActionResult<dasStatusStructure> Get () {
+      var service = new SmartDASService();
       try {
-        return services.smartDAS.getDASStatus();
+        var dasStatus = service.getDASStatus();
+        service.Disconnect();
+        return dasStatus;
       } catch (Exception e) {
         return StatusCode (500, e);
       }

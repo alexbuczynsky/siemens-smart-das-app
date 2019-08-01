@@ -51,6 +51,22 @@ function isValidIPAddress(ipaddress: string) {
   }
 }
 
+function isInRange(num: number, low: number, high: number){
+  if (num >= low && num <= high) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isValidSlaveId(slaveId: number){
+  return isInRange(slaveId, 0, 255);
+}
+
+function isValidIO(input: number) {
+  return isInRange(input, 0, 9);
+}
+
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
 // -------------------------------------------------------------------------
@@ -64,7 +80,7 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
 
   const [serverConfig, setServerConfig] = useState(new BreakerSetupObject(index, props.config));
 
-  const [breakerConfig, setBreakerConfig] = useState(props.config);
+  const [breakerConfig, setBreakerConfig] = useState(new BreakerSetupObject(index, props.config));
 
   const error = isValidIPAddress(ipAddress) === false;
 
@@ -112,6 +128,19 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
           breakerConfig[key] = value;
         }
         setIPAddress(value as string);
+        break;
+      case 'breakerSlaveId':
+        const slaveId = Number(value);
+        if (isValidSlaveId(slaveId) === false){
+          return;
+        }
+        break;
+      case 'associatedInput':
+      case 'associatedOutput':
+        const IO = Number(value);
+        if (isValidIO(IO) === false){
+          return;
+        }
         break;
     }
 
