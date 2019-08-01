@@ -143,13 +143,16 @@ export const SetDASModeDialogButton: React.FC<
       } catch (e) { }
     };
 
+    const isCOMAlarmActive = breakerState.isCOMAlarmActive;
+    const isDASEnabled = breakerState.isDASEnabled;
+
     return (
       <ListItem key={breaker.id}>
         <ListItemText primary={`Breaker ${breaker.id}`} />
         <DASStatusChip isEnabled={breakerState.isDASEnabled} />
 
-        <Button variant="contained" color="primary" onClick={handleToggle}>
-          {breakerState.isDASEnabled ? "Turn off DAS" : "Turn on DAS"}
+        <Button disabled={isCOMAlarmActive} variant="contained" color="primary" onClick={handleToggle}>
+          {isCOMAlarmActive ? "Breaker Not Connected" : isDASEnabled ? "Turn off DAS" : "Turn on DAS"}
         </Button>
       </ListItem>
     );
@@ -181,7 +184,7 @@ export const SetDASModeDialogButton: React.FC<
             {breakers.map(renderListItem)}
           </List>
           <DialogContentText>
-            <Divider style={{marginBottom: '5px'}}/>
+            <Divider style={{ marginBottom: '5px' }} />
             <Typography variant="h4">WARNING: THIS FEATURE IS NOT MEANT FOR PRODUCTION USE</Typography>
             This tool is designed to test the DAS functionality of breakers before the SmartDAS unit
             is deployed in a production environment. It should not be used to control breaker DAS state
