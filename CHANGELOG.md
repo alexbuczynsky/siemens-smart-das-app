@@ -1,6 +1,9 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## V2.0.2
+- **Client**:
+  - DAS Buttons are disabled when a breaker is in comm failure.
 ## V2.0.1
 > NOTE: The version has been pushed to V2.0.1 not because of breaking changes, 
 > but to be in sync with how the shop floor / external departments are
