@@ -51,8 +51,10 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
   });
 
   useEffect(() => {
-    getNetworkConfig();
-  }, [])
+    if (PLCIsConnected) {
+      getNetworkConfig();
+    }
+  }, [PLCIsConnected])
 
 
 

@@ -3,11 +3,13 @@ import { useEffect, useRef } from 'react';
 /**
  *
  *
+ * @export
  * @param {Function} callback
  * @param {number} delay
+ * @param {ReadonlyArray<any>} [deps=[]]
  */
-export function useInterval(callback: Function, delay: number) {
-  const savedCallback = useRef<typeof callback>();
+export function useInterval(callback: Function, delay: number, deps: ReadonlyArray<any> = []) {
+  const savedCallback = useRef<Function>(() => 0);
 
   useEffect(() => {
     savedCallback.current = callback;
@@ -15,9 +17,7 @@ export function useInterval(callback: Function, delay: number) {
 
   useEffect(() => {
     function tick() {
-      if (savedCallback.current) {
-        savedCallback.current();
-      }
+      savedCallback.current();
     }
 
     if (delay) {
@@ -25,6 +25,6 @@ export function useInterval(callback: Function, delay: number) {
       const id = setInterval(tick, delay);
       return () => clearInterval(id);
     }
-  }, [delay]);
+  }, [...deps, delay]);
 }
 export default useInterval;

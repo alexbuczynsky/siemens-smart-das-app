@@ -37,7 +37,7 @@ const useStyles = makeStyles(theme => ({
 export type DASDashboardProps = {};
 
 const STATUS_FETCH_INTERVAL = 2000;
-const CONNECTION_TEST_INTERVAL = 5000;
+const CONNECTION_TEST_INTERVAL = 10000;
 
 // -------------------------------------------------------------------------
 // MAIN COMPONENT
@@ -48,14 +48,20 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
 
   const PLCIsConnected = useStore(state => state.breakers.isPLCConnected);
 
-  const [fetchStatusInterval, setFetchStatusInterval] = useState(
-    STATUS_FETCH_INTERVAL
-  );
+  const [fetchStatusInterval, setFetchStatusInterval] = useState(0);
   const [checkConnectionInterval, setCheckConnectionInterval] = useState(
     CONNECTION_TEST_INTERVAL
   );
 
   useEffect(() => {
+    if (PLCIsConnected) {
+      getSiteSetup();
+    }
+
+  }, [PLCIsConnected])
+
+
+  function getSiteSetup(attempts: number = 0) {
     SmartDASClientService
       .getSiteSetupStructure()
       .then(config => {
@@ -63,9 +69,14 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
 
         StoreActions.Breakers.updateAll(setupStructure.breakers);
         StoreActions.Breakers.setSwitchType(setupStructure.switchType);
+      }).catch(err => {
+        if (attempts < 5) {
+          return getSiteSetup(attempts)
+        } else {
+          console.error(err);
+        }
       })
-      .catch(err => console.error(err))
-  }, [PLCIsConnected])
+  }
 
   // CHECK PLC CONNECTION STATUS
   useInterval(() => {
