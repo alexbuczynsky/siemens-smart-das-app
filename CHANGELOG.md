@@ -1,6 +1,12 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## V2.0.3
+- **PLC**
+  - Bug fix to address issue 
+    https://code.siemens.com/smart-gear-gp/smartdas/issues/10
+    where the ip address was not being validated correctly when
+    the PLC would try to communicate to another device.
 ## V2.0.2
 - **Client**:
   - DAS Buttons are disabled when a breaker is in comm failure.
