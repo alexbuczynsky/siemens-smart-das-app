@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 - **Server**
   - Updated SmartDAS reference
     - Brings recursive write request checks
+- **Client**
+  - Fix for "White Screen Error"
+    - error prompt to reset the PLC when the site setup structure is
+      invalid is now displayed, allowing the user to restore the
+      site setup structure back to its default settings.
 
 ## V2.0.3
 - **PLC**
