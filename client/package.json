@@ -3,7 +3,7 @@
   "author": {
     "name": "Siemens"
   },
-  "version": "2.0.2",
+  "version": "2.0.3",
   "private": true,
   "dependencies": {
     "@smartgear/edison": "^0.2.1",
