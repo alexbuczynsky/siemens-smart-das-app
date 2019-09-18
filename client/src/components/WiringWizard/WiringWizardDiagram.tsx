@@ -19,7 +19,7 @@ import { useStore } from '../../hooks';
 import { Divider } from '@material-ui/core';
 import { SmartDASClientService } from '../../services/configured-services';
 import Store, { StoreActions } from '../../store';
-import { BreakerSetupObject } from '../../models';
+import { BreakerSetupObject, NUMBER_OF_SUPPORTED_BREAKERS } from '../../models';
 import { AsyncSaveButton } from '../AsyncSaveButton';
 import { SiteSetupStructure } from '../../models/SiteSetupStructure';
 
@@ -278,11 +278,19 @@ export const WiringWizardDiagram: React.FC<WiringWizardDiagramProps> = props => 
 
 
     if (breaker.associatedInput !== 0) {
-      state.links.push(inPort.link(assosciationPorts.inputs[breaker.associatedInput - 1]))
+      try {
+        state.links.push(inPort.link(assosciationPorts.inputs[breaker.associatedInput - 1]))
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     if (breaker.associatedOutput !== 0) {
-      state.links.push(outPort.link(assosciationPorts.outputs[breaker.associatedOutput - 1]))
+      try {
+        state.links.push(outPort.link(assosciationPorts.outputs[breaker.associatedOutput - 1]))
+      } catch (err) {
+        console.error(err);
+      }
     }
 
     state.nodes.push(breakerNode);

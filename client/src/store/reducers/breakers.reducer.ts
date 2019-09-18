@@ -51,6 +51,7 @@ interface BreakerState {
   PLCConnectionState: SmartDAS.Models.PLCConnectionStatusPayload,
   isPLCConnected: boolean;
   isBackendAPIConnected: boolean;
+  invalidSiteConfig: boolean;
   switchType: SmartDAS.Models.SiteSwitchType;
   List: BreakerSetupObject[];
   DAS: {
@@ -66,6 +67,7 @@ const initialState: BreakerState = {
     message: "CLI : Client not connected",
     attempts: 0,
   },
+  invalidSiteConfig: false,
   isPLCConnected: false,
   isBackendAPIConnected: false,
   switchType: 0,
@@ -129,7 +131,20 @@ export const BreakerReducer = (state = initialState, action: Actions) => {
       });
       break;
     case BreakerActions.UpdateAll:
-      state.List = action.payload.Breakers;
+      state.invalidSiteConfig = false;
+      for (const breaker of action.payload.Breakers) {
+        try {
+          BreakerSetupObject.isValidBreakerConfig(breaker);
+        } catch (err) {
+          state.invalidSiteConfig = true;
+          console.error('INVALID BREAKER STATE')
+          break;
+        }
+      }
+
+      if (state.invalidSiteConfig === false) {
+        state.List = action.payload.Breakers;
+      }
       // action.payload.Breakers.forEach(Breaker => addBreaker(state, Breaker));
       break;
     case BreakerActions.Add:

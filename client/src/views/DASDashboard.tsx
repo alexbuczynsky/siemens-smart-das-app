@@ -15,6 +15,7 @@ import { useStore, useInterval } from "../hooks";
 import Store, { StoreActions } from "../store";
 import { ToolsCard } from "../components/ToolsCard";
 import { SiteSetupStructure } from "../models/SiteSetupStructure";
+import { InvalidBreakerConfigModal } from '../components/InvalidBreakerConfigModal';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -47,6 +48,8 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
   const classes = useStyles();
 
   const PLCIsConnected = useStore(state => state.breakers.isPLCConnected);
+
+  const invalidSiteConfig = useStore(state => state.breakers.invalidSiteConfig);
 
   const [fetchStatusInterval, setFetchStatusInterval] = useState(0);
   const [checkConnectionInterval, setCheckConnectionInterval] = useState(
@@ -114,6 +117,7 @@ export const DASDashboard: React.FC<DASDashboardProps> = props => {
 
   return (
     <div className={classes.root}>
+      <InvalidBreakerConfigModal open={invalidSiteConfig} />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={12} md={6} lg={6}>
           <ConnectionStatusCard />

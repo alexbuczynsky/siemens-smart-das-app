@@ -3,6 +3,36 @@ import { SiteSetupStructure } from "./SiteSetupStructure";
 
 export const NUMBER_OF_SUPPORTED_BREAKERS = 9;
 
+/**
+ * Checks if the entered IP Address is Acceptable
+ *
+ * @param {string} ipaddress
+ * @returns
+ */
+function isValidIPAddress(ipaddress: string) {
+  if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isInRange(num: number, low: number, high: number) {
+  if (num >= low && num <= high) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function isValidSlaveId(slaveId: number) {
+  return isInRange(slaveId, 0, 255);
+}
+
+function isValidIO(input: number) {
+  return isInRange(input, 0, 9);
+}
+
 export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
 
   public static ConvertToSiteSetupStructure(breakers: BreakerSetupObject[], switchType: SmartDAS.Models.SiteSwitchType) {
@@ -29,6 +59,81 @@ export class BreakerSetupObject implements SmartDAS.Models.BreakerSetupObject {
     return config;
 
 
+  }
+
+  public static isValidBreakerConfig(breaker: Partial<SmartDAS.Models.BreakerSetupObject>): void {
+    const requiredKeys: ReadonlyArray<keyof SmartDAS.Models.BreakerSetupObject> = [
+      'breakerIP1',
+      'breakerIP2',
+      'breakerIP3',
+      'breakerIP4',
+      'breakerSlaveId',
+      'type',
+      'associatedInput',
+      'associatedOutput',
+    ]
+
+    let numErrors = 0;
+    let errorMessage = 'BREAKER CONFIG IS INVALID. REASON(S): ';
+
+    const addError = (reason: string) => {
+      numErrors += 1;
+      errorMessage += `\n - Reason ${numErrors}: ${reason}`;
+    }
+
+
+
+    for (const key of requiredKeys) {
+      const value = breaker[key];
+      if (value === undefined) {
+        throw new Error(errorMessage += `Missing key ${key}`);
+      }
+      switch (key) {
+        case 'breakerIP1':
+          if (isInRange(value, 0, 255) === false) {
+            addError('Invalid IP 1')
+          }
+          break;
+        case 'breakerIP2':
+          if (isInRange(value, 0, 255) === false) {
+            addError('Invalid IP 2')
+          }
+          break;
+        case 'breakerIP3':
+          if (isInRange(value, 0, 255) === false) {
+            addError('Invalid IP 3')
+          }
+          break;
+        case 'breakerIP4':
+          if (isInRange(value, 0, 255) === false) {
+            addError('Invalid IP 4')
+          }
+          break;
+        case 'breakerSlaveId':
+          if (isValidSlaveId(value) === false) {
+            addError(`Invalid Slave Id`)
+          }
+          break;
+        case 'type':
+          break;
+        case 'associatedInput':
+          if (isValidIO(value) === false) {
+            addError(`Invalid Input Assosciation`)
+          }
+          break;
+        case 'associatedOutput':
+          if (isValidIO(value) === false) {
+            addError(`Invalid Output Assosciation`)
+          }
+          break;
+      }
+    }
+
+    if (numErrors > 0) {
+      throw new Error(errorMessage);
+    }
+
+    return;
   }
 
   public breakerIP1: number;
