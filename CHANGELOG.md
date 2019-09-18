@@ -1,7 +1,7 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## V2.1.0
+## V2.1.0 (unreleased)
 - **Server**
   - Updated SmartDAS reference
     - Brings recursive write request checks
