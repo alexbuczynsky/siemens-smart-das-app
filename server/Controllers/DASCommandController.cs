@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-
 using BreakerConfigAPI.Models;
+using BreakerConfigAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
-using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -21,21 +19,21 @@ namespace BreakerConfigAPI.Controllers {
       SmartDASService service;
 
       try {
-        service = new SmartDASService();
+        service = new SmartDASService ();
+        service.Connect ();
       } catch (Exception e) {
         return StatusCode (500, e);
       }
 
-      var dasCommands = new dasCommandsStructure();
-      
+      var dasCommands = new dasCommandsStructure ();
+
       try {
-        dasCommands = service.getDASCommands();
+        dasCommands = service.getDASCommands ();
       } catch (Exception e) {
         return StatusCode (500, e);
       }
 
-
-      service.Disconnect();
+      service.Disconnect ();
       return dasCommands;
     }
 
@@ -44,30 +42,29 @@ namespace BreakerConfigAPI.Controllers {
       SmartDASService service;
 
       try {
-        service = new SmartDASService();
+        service = new SmartDASService ();
+        service.Connect ();
       } catch (Exception e) {
         return StatusCode (500, e);
       }
 
-
       try {
-        service.setDASCommands(newConfig);
+        service.setDASCommands (newConfig);
       } catch (Exception e) {
-        service.Disconnect();
+        service.Disconnect ();
         return StatusCode (500, e);
       }
 
       try {
-        service.setDASCommands(newConfig);
-        var dasCommands = service.getDASCommands();
-        service.Disconnect();
+        service.setDASCommands (newConfig);
+        var dasCommands = service.getDASCommands ();
+        service.Disconnect ();
         return dasCommands;
       } catch (Exception e) {
-        service.Disconnect();
+        service.Disconnect ();
         return StatusCode (500, e);
       }
-      
-      
+
     }
   }
 }

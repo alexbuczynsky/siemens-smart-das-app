@@ -4,7 +4,8 @@ using BreakerConfigAPI.Models;
 
 namespace BreakerConfigAPI.Services {
   public static class services {
-    public static SmartDASService smartDAS = new SmartDASService();
+    public static SmartDASService smartDAS = new SmartDASService(true);
+
   }
 }
 

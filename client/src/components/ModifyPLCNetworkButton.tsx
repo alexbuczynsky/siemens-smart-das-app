@@ -6,7 +6,7 @@
 import React, { useEffect, useState } from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
+import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions, Typography, Snackbar, SnackbarContent } from '@material-ui/core';
 import { IPAddressInputField } from './IPAddressInputField';
 import { AsyncSaveButton } from './AsyncSaveButton';
 import { SmartDASClientService } from '../services/configured-services';
@@ -20,6 +20,10 @@ import { useStore } from '../hooks';
 const useStyles = makeStyles(theme => ({
   root: {
     maxWidth: '100%'
+  },
+  errorSnackBar: {
+    backgroundColor: theme.palette.warning.dark,
+    color: theme.palette.common.black,
   }
 }));
 
@@ -37,6 +41,8 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
   const classes = useStyles();
 
   const [open, setOpen] = React.useState(false);
+
+  const [oldIP, setOldIP] = useState('0.0.0.0');
 
   const [ip, setIP] = useState('0.0.0.0');
   const [subnet, setSubnet] = useState('0.0.0.0');
@@ -63,7 +69,9 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
     return SmartDASClientService
       .getPLCNetworkConfig()
       .then(networkConfig => {
-        setIP(`${networkConfig.newIP1}.${networkConfig.newIP2}.${networkConfig.newIP3}.${networkConfig.newIP4}`);
+        const ipAddress = `${networkConfig.newIP1}.${networkConfig.newIP2}.${networkConfig.newIP3}.${networkConfig.newIP4}`;
+        setIP(ipAddress);
+        setOldIP(ipAddress);
         setSubnet(`${networkConfig.newSubnet1}.${networkConfig.newSubnet2}.${networkConfig.newSubnet3}.${networkConfig.newSubnet4}`);
         setGateway(`${networkConfig.newGateway1}.${networkConfig.newGateway2}.${networkConfig.newGateway3}.${networkConfig.newGateway4}`);
       })
@@ -140,8 +148,20 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
     }
   }
 
+  const oldIPAsArray = oldIP.split('.').map(x => parseInt(x, 10))
+  const newIPAsArray = ip.split('.').map(x => parseInt(x, 10))
+
+  const ipInSameNetworkFamily = oldIPAsArray[0] === newIPAsArray[0] && oldIPAsArray[1] === newIPAsArray[1] && oldIPAsArray[2] === newIPAsArray[2];
+
+  console.log({
+    oldIPAsArray,
+    newIPAsArray,
+    ipInSameNetworkFamily,
+  })
+
   return (
     <div>
+
       <Button disabled={!PLCIsConnected} variant="outlined" color="primary" onClick={handleClickOpen}>
         Change PLC Network Settings
       </Button>
@@ -150,6 +170,28 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
         <DialogContent>
           <DialogContentText>
             Set PLC network configuration below.
+            <br />
+            <Snackbar
+              autoHideDuration={0}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center'
+              }}
+
+              open={!ipInSameNetworkFamily}
+            >
+              <SnackbarContent
+                className={classes.errorSnackBar}
+                message={
+                  <Typography variant='subtitle1' color='inherit'>
+                    Warning. Setting the ip address to <b>{ip}</b> is not in the same network
+                    family as the current PLC ip address <b>{oldIP}</b>. There is no way to validate this setting from the application,
+                    until you change your computer's network configuration to be in the <b>{ip.split('.').slice(0, 3).join('.')}.x</b> range.
+                  </Typography>
+                }
+              />
+            </Snackbar>
+
           </DialogContentText>
           <IPAddressInputField label="IP Address" value={ip} onChange={(value, valid) => {
             setIP(value);

@@ -2,12 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
-
 using BreakerConfigAPI.Models;
+using BreakerConfigAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
-using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -18,10 +16,11 @@ namespace BreakerConfigAPI.Controllers {
     // GET api/site-setup-structure
     [HttpGet]
     public ActionResult<siteSetupStructure> Get () {
-      var service = new SmartDASService();
+      var service = new SmartDASService ();
+      service.Connect ();
       try {
-        var structure = service.getConfigData();
-        service.Disconnect();
+        var structure = service.getConfigData ();
+        service.Disconnect ();
         return structure;
       } catch (Exception e) {
         return StatusCode (500, e);
@@ -30,11 +29,12 @@ namespace BreakerConfigAPI.Controllers {
 
     [HttpPut]
     public ActionResult<siteSetupStructure> Put ([FromBody] siteSetupStructure newSetupStructure) {
-      var service = new SmartDASService();
+      var service = new SmartDASService ();
       try {
-        service.setConfigData(newSetupStructure);
-        var structure = service.getConfigData();
-        service.Disconnect();
+        service.Connect ();
+        service.setConfigData (newSetupStructure);
+        var structure = service.getConfigData ();
+        service.Disconnect ();
         return structure;
       } catch (Exception e) {
         return StatusCode (500, e);

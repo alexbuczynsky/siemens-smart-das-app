@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-
 using BreakerConfigAPI.Models;
+using BreakerConfigAPI.Services;
 using Microsoft.AspNetCore.Mvc;
 using smartDASNamespace;
-using BreakerConfigAPI.Services;
 
 namespace BreakerConfigAPI.Controllers {
 
@@ -17,14 +16,15 @@ namespace BreakerConfigAPI.Controllers {
         // GET api/breaker-config
         [HttpGet]
         public ActionResult<BreakerSetupObject[]> Get () {
-            var service = new SmartDASService();
+            var service = new SmartDASService ();
+            service.Connect ();
             try {
 
-                var breakerConfig = service.getBreakerConfigurations();
-                service.Disconnect();
+                var breakerConfig = service.getBreakerConfigurations ();
+                service.Disconnect ();
                 return breakerConfig;
             } catch (Exception e) {
-                service.Disconnect();
+                service.Disconnect ();
                 return StatusCode (500, e);
             }
 
@@ -38,22 +38,23 @@ namespace BreakerConfigAPI.Controllers {
             SmartDASService service;
 
             try {
-                service = new SmartDASService();
+                service = new SmartDASService ();
+                service.Connect ();
             } catch (Exception e) {
                 return StatusCode (500, e);
             }
 
             if (id >= 0 && id < 9) {
                 try {
-                    var breakers = service.getBreakerConfigurations();
-                    service.Disconnect();
+                    var breakers = service.getBreakerConfigurations ();
+                    service.Disconnect ();
                     return breakers[id];
                 } catch (Exception e) {
-                    service.Disconnect();
+                    service.Disconnect ();
                     return StatusCode (500, e);
                 }
             } else {
-                service.Disconnect();
+                service.Disconnect ();
                 return NotFound ();
             }
 
@@ -67,29 +68,30 @@ namespace BreakerConfigAPI.Controllers {
             SmartDASService service;
 
             try {
-                service = new SmartDASService();
+                service = new SmartDASService ();
+                service.Connect ();
             } catch (Exception e) {
                 return StatusCode (500, e);
             }
 
             try {
                 if (id >= 0 && id < 9) {
-                    var breakers = service.getBreakerConfigurations();
+                    var breakers = service.getBreakerConfigurations ();
 
                     breakers[id] = newConfiguration;
 
-                    breakers = service.setBreakerConfigurations(breakers);
-                    service.Disconnect();
+                    breakers = service.setBreakerConfigurations (breakers);
+                    service.Disconnect ();
                     return breakers[id];
                 } else {
-                    service.Disconnect();
+                    service.Disconnect ();
                     return NotFound ();
                 }
             } catch (Exception e) {
-                service.Disconnect();
+                service.Disconnect ();
                 return StatusCode (500, e);
             }
-            
+
         }
 
     }

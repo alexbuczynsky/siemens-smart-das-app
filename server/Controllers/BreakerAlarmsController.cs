@@ -18,7 +18,8 @@ namespace BreakerConfigAPI.Controllers {
     // GET api/breaker-alarms
     [HttpGet]
     public ActionResult<comAlarmStatusStructure> Get () {
-      var service = new SmartDASService();
+      var service = new SmartDASService ();
+      service.Connect();
       try {
         var commAlarms = service.getCommAlarms();
         service.Disconnect();

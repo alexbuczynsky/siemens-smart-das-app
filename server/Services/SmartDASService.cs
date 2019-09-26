@@ -34,15 +34,7 @@ namespace BreakerConfigAPI.Services {
 
         public PLCConfiguration plcConfig = new PLCConfiguration ();
 
-        public string IP {
-            get {
-                return plcConfig.IP;
-            }
-
-            set {
-                plcConfig.IP = value;
-            }
-        }
+        public string IP;
 
         public int maxRetries {
             get {
@@ -58,8 +50,13 @@ namespace BreakerConfigAPI.Services {
             return Client.Disconnect ();
         }
 
-        public SmartDASService () {
-            Connect();
+        public SmartDASService (bool establishConnection = false) {
+
+            // By default, set the plc configuration to the current plc config stored in the text address
+            this.IP = plcConfig.IP;
+            if (establishConnection) {
+                Connect ();
+            }
         }
 
         public int Connect () {
@@ -158,19 +155,15 @@ namespace BreakerConfigAPI.Services {
             return State.netConfig;
         }
 
-        public plcNetworkConfig setPLCNetwork (plcNetworkConfig newNetConfig) {
+        public void setPLCNetwork (plcNetworkConfig newNetConfig) {
             try {
                 Client.WritePLCNetworkConfiguration (newNetConfig);
-                IP = $"{newNetConfig.newIP1}.{newNetConfig.newIP2}.{newNetConfig.newIP3}.{newNetConfig.newIP4}";
+                // IP = $"{newNetConfig.newIP1}.{newNetConfig.newIP2}.{newNetConfig.newIP3}.{newNetConfig.newIP4}";
             } catch (Exception err) {
                 if (DemoMode == false) {
                     throw err;
                 }
             }
-
-            State.netConfig = newNetConfig;
-
-            return State.netConfig;
         }
 
         public comAlarmStatusStructure getCommAlarms () {
