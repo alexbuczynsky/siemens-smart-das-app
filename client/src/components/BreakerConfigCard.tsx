@@ -5,12 +5,13 @@
 // Import React
 import React, { useState } from 'react';
 // Material UI Imports
-import { makeStyles } from '@material-ui/styles';
-import { Card, CardHeader, Avatar, CardContent, FormControl, Select, MenuItem, InputLabel, CardActions, TextField, Button } from '@material-ui/core';
-import { BreakerType, BreakerSetupObject } from '../models';
+import { makeStyles } from '@smartgear/edison';
+import { Card, CardHeader, Avatar, CardContent, FormControl, Select, MenuItem, InputLabel, CardActions, TextField, Button, Snackbar, SnackbarContent, Typography } from '@material-ui/core';
+import { BreakerType, BreakerSetupObject, breakerTypeDisplayName } from '../models';
 import { SmartDASClientService } from '../services/configured-services';
 import { StoreActions } from '../store';
 import { IPAddressInputField } from './IPAddressInputField';
+import { useStore, usePLCNetworkConfig } from '../hooks';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -26,6 +27,10 @@ const useStyles = makeStyles(theme => ({
   formField: {
     marginTop: '5px',
     width: '100%',
+  },
+  errorSnackBar: {
+    backgroundColor: theme.palette.warning.dark,
+    color: theme.palette.common.black,
   }
 }));
 
@@ -51,7 +56,7 @@ function isValidIPAddress(ipaddress: string) {
   }
 }
 
-function isInRange(num: number, low: number, high: number){
+function isInRange(num: number, low: number, high: number) {
   if (num >= low && num <= high) {
     return true;
   } else {
@@ -59,7 +64,7 @@ function isInRange(num: number, low: number, high: number){
   }
 }
 
-function isValidSlaveId(slaveId: number){
+function isValidSlaveId(slaveId: number) {
   return isInRange(slaveId, 0, 255);
 }
 
@@ -76,6 +81,11 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
 
   const index = props.config.id;
 
+  const [plcNetworkConfig] = usePLCNetworkConfig();
+
+
+  const plcIPAddress = `${plcNetworkConfig.newIP1}.${plcNetworkConfig.newIP2}.${plcNetworkConfig.newIP3}.${plcNetworkConfig.newIP4}`
+  const [oldIPAddress, setOldIPAddress] = useState(props.config.ipAddress);
   const [ipAddress, setIPAddress] = useState(props.config.ipAddress);
 
   const [serverConfig, setServerConfig] = useState(new BreakerSetupObject(index, props.config));
@@ -131,14 +141,14 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
         break;
       case 'breakerSlaveId':
         const slaveId = Number(value);
-        if (isValidSlaveId(slaveId) === false){
+        if (isValidSlaveId(slaveId) === false) {
           return;
         }
         break;
       case 'associatedInput':
       case 'associatedOutput':
         const IO = Number(value);
-        if (isValidIO(IO) === false){
+        if (isValidIO(IO) === false) {
           return;
         }
         break;
@@ -156,6 +166,15 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
   console.log({ disableButton, hasChanged: hasChanged() })
   console.log("---------------------------------------")
 
+  const plcIPArray = plcIPAddress.split('.').map(x => parseInt(x, 10))
+  const newIPArray = ipAddress.split('.').map(x => parseInt(x, 10))
+
+  const deviceIpInSameNetworkFamilyAsPLC = plcIPArray[0] === newIPArray[0] && plcIPArray[1] === newIPArray[1] && plcIPArray[2] === newIPArray[2];
+
+  console.log({ plcIPArray })
+
+  const deviceDisplayNameForErrorMessage = breakerConfig.type === 0 ? "device" : breakerTypeDisplayName(breakerConfig.type);
+
   return (
     <Card>
       <CardHeader
@@ -170,6 +189,35 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
       <CardContent className={classes.cardContent}>
         <form autoComplete="off">
           <FormControl className={classes.formField} fullWidth>
+            <Snackbar
+              autoHideDuration={0}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'center'
+              }}
+
+              open={plcIPAddress !== '0.0.0.0' && !deviceIpInSameNetworkFamilyAsPLC}
+            >
+              <SnackbarContent
+                className={classes.errorSnackBar}
+                message={
+                  <React.Fragment>
+                    <Typography variant='h3' color='inherit' align='center' gutterBottom>
+                      Warning
+                    </Typography>
+                    <Typography variant='subtitle1' color='inherit'>
+                      Setting the device ip address to <b>{ipAddress}</b> is not in the same network
+                      family as the current PLC ip address <b>{oldIPAddress}</b>.
+                      <br />
+
+                      In order for the PLC to connect to the {deviceDisplayNameForErrorMessage}, perform one the following actions:
+                      <li>Change the {deviceDisplayNameForErrorMessage} to be in the <b>{plcIPAddress.split('.').slice(0, 3).join('.')}.x</b> network range</li>
+                      <li>Change the PLC to be in the <b>{ipAddress.split('.').slice(0, 3).join('.')}.x</b> network range</li>
+                    </Typography>
+                  </React.Fragment>
+                }
+              />
+            </Snackbar>
             <IPAddressInputField value={ipAddress} onChange={value => updateBreakerConfig('ipAddress', value)} />
           </FormControl>
 

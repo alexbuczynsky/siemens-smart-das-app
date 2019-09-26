@@ -183,11 +183,16 @@ export const ModifyPLCNetworkButton: React.FC<ModifyPLCNetworkButtonProps> = pro
               <SnackbarContent
                 className={classes.errorSnackBar}
                 message={
-                  <Typography variant='subtitle1' color='inherit'>
-                    Warning. Setting the ip address to <b>{ip}</b> is not in the same network
-                    family as the current PLC ip address <b>{oldIP}</b>. There is no way to validate this setting from the application,
-                    until you change your computer's network configuration to be in the <b>{ip.split('.').slice(0, 3).join('.')}.x</b> range.
-                  </Typography>
+                  <React.Fragment>
+                    <Typography variant='h3' color='inherit' align='center' gutterBottom>
+                      Warning
+                    </Typography>
+                    <Typography variant='subtitle1' color='inherit'>
+                      Setting the ip address to <b>{ip}</b> is not in the same network
+                      family as the current PLC ip address <b>{oldIP}</b>. There is no way to validate this setting from the application,
+                      until you change your computer's network configuration to be in the <b>{ip.split('.').slice(0, 3).join('.')}.x</b> range.
+                    </Typography>
+                  </React.Fragment>
                 }
               />
             </Snackbar>

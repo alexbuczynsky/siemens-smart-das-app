@@ -20,7 +20,14 @@ All notable changes to this project will be documented in this file.
       site setup structure back to its default settings.
   - gets new warning text when updating the PLC ip address, if the ip
     address is outside the network family of the original ip
-    address.
+    address. See [this screenshot](./docs/_images/v2.1.0/warning_message_invalid_plc_network_family.png)
+    for more details.
+  - When configuring a device that will connect to the PLC, a check
+    will run to make sure that the device the user is modifiying has
+    an ip address that the PLC can actually connect to. If not, a
+    warning dialog will be displayed to let the user know what actions
+    to take. See [this screenshot](./docs/_images/v2.1.0/warning_message_invalid_device_network_family.png)
+    for more details.
 
 ## V2.0.3
 - **PLC**
