@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 ## V2.1.0 (unreleased)
 - **Server**
+  - error handling for setting ip address of PLC
+  - if the ip is in the same network family, the server
+    will recursively attempt to write the new ip address
+    to the plc.
+  - if the ip is not in the same network family, the server
+    will write it one time and then it is up to the user to
+    change their network settings to the new family
+    range. e.g. 192.168.1.5 changed to 192.168.45.5
   - Updated SmartDAS reference
     - Brings recursive write request checks
 - **Client**
@@ -10,6 +18,9 @@ All notable changes to this project will be documented in this file.
     - error prompt to reset the PLC when the site setup structure is
       invalid is now displayed, allowing the user to restore the
       site setup structure back to its default settings.
+  - gets new warning text when updating the PLC ip address, if the ip
+    address is outside the network family of the original ip
+    address.
 
 ## V2.0.3
 - **PLC**
