@@ -16,12 +16,14 @@ namespace BreakerConfigAPI.Controllers {
     // GET api/plc-config
     [HttpGet]
     public ActionResult<PLCConfiguration> Get () {
-      return services.smartDAS.plcConfig;
+      return new PLCConfiguration ();
     }
 
     [HttpPut]
     public ActionResult<PLCConfiguration> Put ([FromBody] PLCConfiguration newConfig) {
-      return services.smartDAS.plcConfig = newConfig;
+      var config = new PLCConfiguration ();
+      config.IP = newConfig.IP;
+      return config;
     }
   }
 }
