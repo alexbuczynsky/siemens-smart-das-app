@@ -8,6 +8,6 @@ dotnet publish -r linux-x64 --output bin/dist/linux
 
 cd ../client
 
-npm install
+yarn
 
-npm run build:electron:linux
+yarn build:electron:linux
