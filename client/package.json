@@ -36,9 +36,9 @@
     "start:electron": "electron ./build/electron.js",
     "postinstall": "electron-builder install-app-deps",
     "preelectron-pack": "npm run build",
-    "build:electron:mac": "build -m",
-    "build:electron:linux": "build -l",
-    "build:electron:windows": "build -w"
+    "build:electron:mac": "yarn build && electron-builder -m",
+    "build:electron:linux": "yarn build && electron-builder -l",
+    "build:electron:windows": "yarn build && electron-builder -w"
   },
   "main": "public/electron.js",
   "eslintConfig": {

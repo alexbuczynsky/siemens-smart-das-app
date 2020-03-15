@@ -8,6 +8,6 @@ dotnet publish -r osx.10.11-x64 --output bin/dist/osx
 
 cd ../client
 
-npm install
+yarn
 
-npm run build:electron:mac
+yarn build:electron:mac
