@@ -6,7 +6,7 @@
 import React from 'react';
 // Material UI Imports
 import { makeStyles } from '@smartgear/edison';
-import { Card, CardHeader, CardContent, CardActions, Typography, Avatar } from '@material-ui/core';
+import { Card, CardHeader, CardContent, CardActions, Avatar } from '@material-ui/core';
 import { ModifyPLCNetworkButton } from './ModifyPLCNetworkButton';
 import { useStore } from '../hooks';
 import { BrandvilleIcons } from '@smartgear/icons';

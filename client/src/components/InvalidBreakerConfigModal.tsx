@@ -5,26 +5,11 @@
 // Import React
 import React, { useEffect } from 'react';
 // Material UI Imports
-import { makeStyles } from '@smartgear/edison';
 import { Button, Dialog, DialogTitle, DialogContent, DialogContentText, DialogActions } from '@material-ui/core';
-import { IPAddressInputField } from './IPAddressInputField';
-import { AsyncSaveButton } from './AsyncSaveButton';
-import { useStore } from '../hooks';
 import { SmartDASClientService } from '../services/configured-services';
 import { StoreActions } from '../store';
-import { BreakerSetupObject } from '../models';
 import { ButtonProps } from '@material-ui/core/Button';
 import { SiteSetupStructure } from '../models/SiteSetupStructure';
-
-// -------------------------------------------------------------------------
-// STYLES
-// -------------------------------------------------------------------------
-
-const useStyles = makeStyles(theme => ({
-  root: {
-    maxWidth: '100%'
-  }
-}));
 
 // -------------------------------------------------------------------------
 // OPTIONS
@@ -39,13 +24,8 @@ export interface InvalidBreakerConfigModalProps extends ButtonProps {
 // -------------------------------------------------------------------------
 
 export const InvalidBreakerConfigModal: React.FC<InvalidBreakerConfigModalProps> = props => {
-  const classes = useStyles();
-
-  const breakers = useStore(state => state.breakers.List);
 
   const [open, setOpen] = React.useState(false);
-  const [ip, setIP] = React.useState('0.0.0.0');
-  const [isValid, setIsValid] = React.useState(false);
 
   useEffect(() => {
     if (props.open !== undefined) {
@@ -53,9 +33,6 @@ export const InvalidBreakerConfigModal: React.FC<InvalidBreakerConfigModalProps>
     }
   }, [props.open])
 
-  function handleClickOpen() {
-    setOpen(true);
-  }
 
   function handleClose() {
     setOpen(false);

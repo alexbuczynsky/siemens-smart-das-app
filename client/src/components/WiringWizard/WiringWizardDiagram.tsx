@@ -19,7 +19,6 @@ import { useStore } from '../../hooks';
 import { Divider } from '@material-ui/core';
 import { SmartDASClientService } from '../../services/configured-services';
 import Store, { StoreActions } from '../../store';
-import { BreakerSetupObject, NUMBER_OF_SUPPORTED_BREAKERS } from '../../models';
 import { AsyncSaveButton } from '../AsyncSaveButton';
 import { SiteSetupStructure } from '../../models/SiteSetupStructure';
 

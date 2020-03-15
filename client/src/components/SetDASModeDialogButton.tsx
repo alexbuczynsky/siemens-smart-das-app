@@ -13,29 +13,17 @@ import {
   DialogContent,
   DialogContentText,
   DialogActions,
-  FormLabel,
-  RadioGroup,
-  FormControlLabel,
-  Radio,
   List,
   ListItem,
-  ListItemAvatar,
-  Avatar,
   ListItemText,
-  ListItemSecondaryAction,
-  IconButton,
-  Badge,
-  Chip,
   Typography,
   Divider
 } from "@material-ui/core";
-import { AsyncSaveButton } from "./AsyncSaveButton";
 import { useStore } from "../hooks";
 import { SmartDASClientService } from "../services/configured-services";
 import { StoreActions } from "../store";
 import { BreakerSetupObject } from "../models";
 import { ButtonProps } from "@material-ui/core/Button";
-import DeleteIcon from "@material-ui/icons/Delete";
 import { useBreakerStatuses } from "../hooks/useBreakerStatus";
 import { DASStatusChip } from "./DASStatusChip";
 
@@ -94,33 +82,6 @@ export const SetDASModeDialogButton: React.FC<
 
   function handleClose() {
     setOpen(false);
-  }
-
-  async function handleSave() {
-    try {
-      const siteSetupStructure = BreakerSetupObject.ConvertToSiteSetupStructure(
-        breakers,
-        switchType
-      );
-      const payload = await SmartDASClientService.setSiteSetupStructure(
-        siteSetupStructure
-      );
-
-      StoreActions.Breakers.setSwitchType(payload.switchType);
-    } catch (err) {
-      StoreActions.Notifications.publishError({
-        title: `Switch Type Failed updating`,
-        message: err.message
-      });
-
-      return {
-        isSuccess: false
-      };
-    }
-
-    return {
-      isSuccess: true
-    };
   }
 
   function renderListItem(breaker: BreakerSetupObject) {

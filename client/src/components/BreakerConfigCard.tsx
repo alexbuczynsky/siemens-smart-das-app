@@ -11,7 +11,7 @@ import { BreakerType, BreakerSetupObject, breakerTypeDisplayName } from '../mode
 import { SmartDASClientService } from '../services/configured-services';
 import { StoreActions } from '../store';
 import { IPAddressInputField } from './IPAddressInputField';
-import { useStore, usePLCNetworkConfig } from '../hooks';
+import { usePLCNetworkConfig } from '../hooks';
 
 // -------------------------------------------------------------------------
 // STYLES
@@ -85,7 +85,7 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
 
 
   const plcIPAddress = `${plcNetworkConfig.newIP1}.${plcNetworkConfig.newIP2}.${plcNetworkConfig.newIP3}.${plcNetworkConfig.newIP4}`
-  const [oldIPAddress, setOldIPAddress] = useState(props.config.ipAddress);
+  const [oldIPAddress] = useState(props.config.ipAddress);
   const [ipAddress, setIPAddress] = useState(props.config.ipAddress);
 
   const [serverConfig, setServerConfig] = useState(new BreakerSetupObject(index, props.config));
@@ -161,17 +161,10 @@ export const BreakerConfigCard: React.FC<BreakerConfigCardProps> = props => {
 
   const disableButton = hasChanged() === false || error;
 
-  console.log("---------------------------------------")
-  console.log({ breakerConfig })
-  console.log({ disableButton, hasChanged: hasChanged() })
-  console.log("---------------------------------------")
-
   const plcIPArray = plcIPAddress.split('.').map(x => parseInt(x, 10))
   const newIPArray = ipAddress.split('.').map(x => parseInt(x, 10))
 
   const deviceIpInSameNetworkFamilyAsPLC = plcIPArray[0] === newIPArray[0] && plcIPArray[1] === newIPArray[1] && plcIPArray[2] === newIPArray[2];
-
-  console.log({ plcIPArray })
 
   const deviceDisplayNameForErrorMessage = breakerConfig.type === 0 ? "device" : breakerTypeDisplayName(breakerConfig.type);
 
