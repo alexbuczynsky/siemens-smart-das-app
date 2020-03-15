@@ -3,20 +3,6 @@ import { SiteSetupStructure } from "./SiteSetupStructure";
 
 export const NUMBER_OF_SUPPORTED_BREAKERS = 9;
 
-/**
- * Checks if the entered IP Address is Acceptable
- *
- * @param {string} ipaddress
- * @returns
- */
-function isValidIPAddress(ipaddress: string) {
-  if (/^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$/.test(ipaddress)) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
 function isInRange(num: number, low: number, high: number) {
   if (num >= low && num <= high) {
     return true;

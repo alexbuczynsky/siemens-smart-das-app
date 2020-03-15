@@ -1,14 +1,9 @@
 import { createStore, applyMiddleware } from 'redux';
 
-// import { of } from 'rxjs';
-// import { delay } from 'rxjs/operators';
-
 // -------------------------------------------------------------------------
 // Import Reducers
 // -------------------------------------------------------------------------
 import rootReducer from './reducers';
-
-// const epic1 = () => of({ type: 'SET_NAME', payload: 'Sally' }).pipe(delay(2000));
 
 // -------------------------------------------------------------------------
 // IMPORT MIDDLEWARE
@@ -50,10 +45,11 @@ export function configureStore() {
 const store = configureStore();
 
 store.dispatch({
-  type: 'INITALIZE_APPLICATION',
+  type: 'INITALIZE_APPLICATION' as any,
 });
 
-export type StoreState = ReturnType<typeof store.getState>;
+
 export type CustomStore = typeof store;
+export type StoreState = ReturnType<CustomStore['getState']>;
 
 export default store;

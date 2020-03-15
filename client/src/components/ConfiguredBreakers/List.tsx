@@ -6,7 +6,6 @@
 import React from 'react';
 // Material UI Imports
 import { makeStyles, useTheme } from '@smartgear/edison';
-import { useStore } from '../../hooks';
 import { Table, TableHead, TableRow, TableCell, TableBody, Chip, Avatar } from '@material-ui/core';
 import { BreakerSetupObject } from '../../models';
 import { ConfigureBreakerButton } from './ConfigureBreakerButton';

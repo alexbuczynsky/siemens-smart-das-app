@@ -4,7 +4,7 @@ import { createAction, FSActionNoPayload, FSAWithPayload } from './actionCreator
 
 interface BasicKeyValuePair { [index: string]: any; }
 
-export type ActionMap<M extends BasicKeyValuePair> = {
+export type MessagesActionMap<M extends BasicKeyValuePair> = {
   [Type in keyof M]: M[Type] extends undefined
   ? {
     type: Type;
@@ -28,6 +28,6 @@ export function createMsg<Messages extends BasicKeyValuePair>() {
   return messageComposer;
 }
 
-export type ActionMapActions<M extends BasicKeyValuePair> = ActionMap<M>[keyof ActionMap<M>];
+export type ActionMapActions<M extends BasicKeyValuePair> = MessagesActionMap<M>[keyof MessagesActionMap<M>];
 
 export type AsyncAction = ThunkAction<any, any, any, AnyAction>;

@@ -7,12 +7,11 @@ import React, { useEffect, useState } from "react";
 // Material UI Imports
 import { makeStyles } from "@smartgear/edison";
 import { Grid } from "@material-ui/core";
-import { BreakerSetupObject } from "../models";
 import { SmartDASClientService } from "../services/configured-services";
 import { ConnectionStatusCard } from "../components/PLCConnectionStatusCard";
 import { ConfiguredBreakersCard } from "../components/ConfiguredBreakers/Card";
 import { useStore, useInterval } from "../hooks";
-import Store, { StoreActions } from "../store";
+import { StoreActions } from "../store";
 import { ToolsCard } from "../components/ToolsCard";
 import { SiteSetupStructure } from "../models/SiteSetupStructure";
 import { InvalidBreakerConfigModal } from '../components/InvalidBreakerConfigModal';
