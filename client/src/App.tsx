@@ -12,14 +12,14 @@ import { useLocalStorage } from "./hooks";
 const App: React.FC = () => {
   const [themeName, setThemeName] = useLocalStorage<EdisonThemeNames>(
     "selected-theme-name",
-    "BrandVilleTheme"
+    "Siemens (Light)"
   );
 
   const onChangeTheme = () => {
-    if (themeName === "BrandVilleTheme") {
-      setThemeName("SiemensDarkTheme");
+    if (themeName !== "Siemens (Dark)") {
+      setThemeName("Siemens (Dark)");
     } else {
-      setThemeName("BrandVilleTheme");
+      setThemeName("Siemens (Light)");
     }
   };
 

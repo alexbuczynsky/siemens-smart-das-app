@@ -1,7 +1,7 @@
 // -------------------------------------------------------------------------
 // IMPORTS
 // -------------------------------------------------------------------------
-import { createMsg, ActionMap, ActionMapActions } from '../tools/Messages';
+import { createMsg, MessagesActionMap, ActionMapActions } from '../tools/Messages';
 import { CreateItem, RemoveItem } from '../tools/ReduxArrayHelpers';
 import { BreakerSetupObject } from '../../models';
 import { SiteSetupStructure } from '../../models/SiteSetupStructure';
@@ -40,7 +40,7 @@ export interface Messages {
 
 export const Msg = createMsg<Messages>();
 
-export type ActionMap = ActionMap<Messages>;
+export type ActionMap = MessagesActionMap<Messages>;
 export type Actions = ActionMapActions<Messages>;
 
 // -------------------------------------------------------------------------

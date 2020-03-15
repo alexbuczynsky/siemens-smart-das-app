@@ -5,7 +5,7 @@
 // Import React
 import React from "react";
 // Material UI Imports
-import { makeStyles, EdisonThemeNames } from "@smartgear/edison";
+import { makeStyles } from "@smartgear/edison";
 import Typography from "@material-ui/core/Typography";
 import { AppBar, Toolbar, IconButton } from "@material-ui/core";
 
